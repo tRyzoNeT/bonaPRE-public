@@ -51,4 +51,13 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
     - unNUKE :: !unnuke [release.name] [raison.du.nuke] [nom.nukenet]
     - OLDunnuke :: !oldunnuke [release.name] [raison.du.nuke] [nom.nukenet] [datetime]
 
+  -------------------------------------------------------------------------------------------------------
+
+  **iNDEX FLAGS :**
+  
+  Pour que vos commande fonctionne sur vos channel, il faut attribuer les flags necessaire
+  
+  - FLAGS disponible :: bpadd - bpdb - bpecho - bpfiltre - bpnuke - bpsearch - bpstats
+  - ViA DCC CHAT ::  .chanset #chan +bpadd
+
 # FiN
