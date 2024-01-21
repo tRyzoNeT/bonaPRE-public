@@ -51,5 +51,5 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
     - unNUKE :: !unnuke [release.name] [raison.du.nuke] [nom.nukenet]
     - OLDunnuke :: !oldunnuke [release.name] [raison.du.nuke] [nom.nukenet] [datetime]
 
-#FiN
+# FiN
 XD
