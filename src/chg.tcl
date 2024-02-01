@@ -1,6 +1,6 @@
 proc ::bonaPRE::CHG:init { args } {
 	if { [catch { package require bonaPRE-SQL 1.0 }] } {
-		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant chg.tcl"]
+		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être chargé avant chg.tcl"]
 		return -code error ${AE_LOGERR};
 	}
 }
@@ -26,13 +26,13 @@ proc ::bonaPRE::chgsec { nick uhost hand chan arg } {
 	set CHGS_Echo	   	[lindex ${arg} 2]
 	if { [getuser ${nick} XTRA uauth] == 1 } {
 		if { ![channel get ${chan} bpadd] } {
-			set CHGS_LOGERR		[format "L'utilisateur %s à tenté un %s sur %s, mais le salon n'a pas les *flags* necéssaire." ${nick} ${::CHG::SEC} ${chan}]
-			set CHGS_MSGERR	[format "%s à tenté un %s, mais le salon n'a pas les *flags* necéssaire." ${nick} ${::CHG::SEC}]
+			set CHGS_LOGERR		[format "L'utilisateur %s a tenté un %s sur %s, mais le salon n'a pas les *flags* necéssaires." ${nick} ${::CHG::SEC} ${chan}]
+			set CHGS_MSGERR	[format "%s a tenté un %s, mais le salon n'a pas les *flags* necéssaires." ${nick} ${::CHG::SEC}]
 			putquick "privmsg ${chan} ${CHGS_MSGERR}"
 			return -code error ${CHGS_LOGERR};
 		}
 		if { ${CHGS_Var} == "" } {
-			set CHGS_LOGERR	[format "Syntax * %s à tenté un %s sur %s, mais manque d'information..." ${nick} ${::CHG::SEC} ${chan}]
+			set CHGS_LOGERR	[format "Syntax * %s a tenté un %s sur %s, mais manque d'informations..." ${nick} ${::CHG::SEC} ${chan}]
 			set CHGS_MSGERR	[format "Syntax * %s <nom.de.la.release> <section>" ${::CHG::SEC}]
 			putquick "privmsg ${chan} ${CHGS_MSGERR}"
 			return -code error ${CHGS_LOGERR};
@@ -63,8 +63,8 @@ proc ::bonaPRE::chgsec { nick uhost hand chan arg } {
 			return false;
 		}
 	} else {
-		set CHGS_LOGERR	[format "uAUTH * %s n'est pas iDENTiFiER au EGGDROP..." ${nick}]
-		set CHGS_MSGERR	[format "uAUTH * Tes pas iDENTiFiER au EGGDROP... CouCOU!!"]
+		set CHGS_LOGERR	[format "uAUTH * %s n'est pas iDENTiFiÉ au EGGDROP..." ${nick}]
+		set CHGS_MSGERR	[format "uAUTH * Tu n'es pas iDENTiFiÉ au EGGDROP... CouCOU!!"]
   		putquick "privmsg ${chan} ${CHGS_MSGERR}"
   		return -code error ${CHGS_LOGERR};
 	}
