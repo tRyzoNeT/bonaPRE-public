@@ -1,6 +1,6 @@
 proc ::bonaPRE::mysqldb:init { args } {
 	if { [catch { package require bonaPRE-SQL 1.0 }] } {
-		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant db.tcl"]
+		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être chargé avant db.tcl"]
 		return -code error ${AE_LOGERR};
 	}
 }
@@ -11,8 +11,8 @@ bind pub -|- !db ::bonaPRE::dbexec
 proc ::bonaPRE::dbexec { nick uhost hand chan arg } {
 	if { [getuser ${nick} XTRA uauth] == 1 } {
 		if { ![channel get ${chan} bpdb] } {
-			set DB_LOGERR	[format "L'utilisateur %s à tenté un !%s sur %s, mais le salon n'a pas les *flags* necéssaire." ${nick} !db ${chan}]
-			# set DB_MSGERR	[format "%s à tenté un !%s, mais le salon n'a pas les *flags* necéssaire." ${nick} !db]
+			set DB_LOGERR	[format "L'utilisateur %s a tenté un !%s sur %s, mais le salon n'a pas les *flags* necéssaires." ${nick} !db ${chan}]
+			# set DB_MSGERR	[format "%s a tenté un !%s, mais le salon n'a pas les *flags* necéssaires." ${nick} !db]
 			# putquick "privmsg ${chan} ${DB_MSGERR}"
 			return -code error ${DB_LOGERR};
 		}
@@ -26,8 +26,8 @@ proc ::bonaPRE::dbexec { nick uhost hand chan arg } {
 		putquick "privmsg ${chan} (MySQL) PRiNCiPAL ${DB_All} - Nuke ${NK_All}"
 		return false;
 	} else {
-		set DB_LOGERR 	[format "uAUTH * %s n'est pas iDENTiFiER au EGGDROP..." ${nick}]
-		set DB_MSGERR	[format "uAUTH * Tes pas iDENTiFiER au EGGDROP... CouCOU!!"]
+		set DB_LOGERR 	[format "uAUTH * %s n'est pas iDENTiFiÉ au EGGDROP..." ${nick}]
+		set DB_MSGERR	[format "uAUTH * TU n'es pas iDENTiFiÉ au EGGDROP... CouCOU!!"]
   		putquick "privmsg ${chan} ${DB_MSGERR}"
   		return -code error ${DB_LOGERR};
 	}
