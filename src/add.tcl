@@ -1,6 +1,6 @@
 proc ::bonaPRE::addpre:init { args } {
 	if { [catch { package require bonaPRE-SQL 1.0 }] } {
-		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant add.tcl"]
+		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être chargé avant add.tcl"]
 		return -code error ${AE_LOGERR};
 	}
 }
@@ -48,13 +48,13 @@ proc ::bonaPRE::addexec { args } {
 	set AE_Ech	 [lindex ${args} 8]
 	if { [getuser ${AE_Nick} XTRA uauth] == 1 } {
 		if { ![channel get ${AE_Chan} bpadd] } {
-			set AE_LOGERR	[format "L'utilisateur %s à tenté un !%s sur %s, mais le salon n'a pas les *flags* necéssaire." ${AE_Nick} ${AE_Sta} ${AE_Chan}]
-			set AE_MSGERR	[format "%s à tenté un !%s, mais le salon n'a pas les *flags* necéssaire." ${AE_Nick} ${AE_Sta}]
+			set AE_LOGERR	[format "L'utilisateur %s a tenté un !%s sur %s, mais le salon n'a pas les *flags* necéssaires." ${AE_Nick} ${AE_Sta} ${AE_Chan}]
+			set AE_MSGERR	[format "%s à tenté un !%s, mais le salon n'a pas les *flags* necéssaires." ${AE_Nick} ${AE_Sta}]
 			putquick "privmsg ${AE_Chan} ${AE_MSGERR}"
 			return -code error ${AE_LOGERR};
 		}
 		if { ${AE_Sec} == "" } {
-			set AE_LOGERR	[format "Syntax * %s à tenté un !%s sur %s, mais manque d'information..." ${AE_Nick} ${AE_Sta} ${AE_Chan}]
+			set AE_LOGERR	[format "Syntax * %s a tenté un !%s sur %s, mais manque d'informations..." ${AE_Nick} ${AE_Sta} ${AE_Chan}]
 			if { ${AE_Sta} == "ADDPRE" } { set AE_MSGERR	[format "Syntax * !%s <nom.de.la.release> <section>" ${AE_Sta}] }
 			if { ${AE_Sta} == "ADDOLD" } { set AE_MSGERR	[format "Syntax * !%s <nom.de.la.release> <section> <datetime>" ${AE_Sta}] }
 			putquick "privmsg ${AE_Chan} ${AE_MSGERR}"
@@ -84,8 +84,8 @@ proc ::bonaPRE::addexec { args } {
 			return -code error ${AE_LOGERR};
 		}
 	} else {
-			set AE_LOGERR 	[format "uAUTH * %s n'est pas iDENTiFiER au EGGDROP..." ${AE_Nick}]
-			set AE_MSGERR	[format "uAUTH * Tes pas iDENTiFiER au EGGDROP... CouCOU!!"]
+			set AE_LOGERR 	[format "uAUTH * %s n'est pas iDENTiFiÉ au EGGDROP..." ${AE_Nick}]
+			set AE_MSGERR	[format "uAUTH * Tu n'es pas iDENTiFiÉ au EGGDROP... CouCOU!!"]
   			putquick "privmsg ${AE_Chan} ${AE_MSGERR}"
   			return -code error ${AE_LOGERR};
 	}
