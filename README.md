@@ -1,33 +1,33 @@
 # bonaPRE.v1P.FRENCH.EGGDROP.TCL-RaW
 
-**Suggestion & Aide & Etc.... ses par ici les amis!!! XD**
+**Suggestions & Aide & Etc.... C'est par ici les amis!!! XD**
 
 # public REPO
-TCL &amp; MySQL - PREbot en FRANCAiS
+TCL &amp; MySQL - PREbot en FRANÇAiS
 
 Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
 
-- Crée un 'BOTNET' de 2-3 eggdrop (pas sur le meme serveur.... u know)
+- Créez un 'BOTNET' de 2-3 eggdrops (pas sur le même serveur.... u know)
 - Chaque .TCL contient certaines 'CMD' pour éviter le lag.
-  - Chargé vos .TCL sur des eggdrops différents et des serveurs différent.
-    - **connexion gbit recommander**
-- Assurez-vous d'avoir une base de données MYSQL rapide et performant.
-  - **disque dur SSD recommander ou NVME pour de meilleures performances**
+  - Chargez vos .TCL sur des eggdrops différents et des serveurs différents.
+    - **connexion gbit recommandée**
+- Assurez-vous d'avoir une base de données MYSQL rapide et performante.
+  - **disque dur SSD recommandé ou NVME pour de meilleures performances**
   -------------------------------------------------------------------------------------------------------
 
   **VERSiON 1P ?! :**
 
-- Le CODE est complètement révisé pour être optimiser par TCL 1.6+ et eggdrop 1.9+
+- Le CODE est complètement révisé pour être optimisé pour TCL 1.6+ et eggdrop 1.9+
 - Simplification & Re-Structuration du CODE, cela a permis :
-  - Accélérer les commandes du eggdrop.
-  - Éviter des bugs dans l`avenir, il suffira de **CHARGÉ** les *.tcl voulu.
+  - Accélérer les commandes de l'eggdrop.
+  - Éviter des bugs dans l`avenir, il suffira de **CHARGER** les *.tcl voulus.
 - Lien avec MySQL :
-  - Une connexion avec MySQL demeure ouverte pour y accéder et obtenir une meilleure réponse aux commandes.
-  - Une actualisation avec MySQL a tout les **X** temps pour maintenir une connexion. 'KEEPALiVE' 
+  - Une connexion avec MySQL demeurre ouverte pour y accéder et obtenir une meilleure réponse aux commandes.
+  - Une actualisation avec MySQL toutes les **X** secondes/minutes (temps) pour maintenir une connexion. 'KEEPALiVE' 
     - **PS**: le temps d'actualisation est modifiable via le fichier de .conf
-  - 2 base de donnnée MySQL requis pour ce prebot **MAiN et NUKE**
-- Les CMD disponible, simplement CHARGE le **.TCL** voulu
-  - Option :: <0> [ 0 a la 'FiN' si vous ne voulez pas **ECHO** sur le channel. ]
+  - 2 bases de donnnées MySQL requises pour ce prebot **MAiN et NUKE**
+- Les CMD disponibles, simplement CHARGEZ le **.TCL** voulu
+  - Option :: <0> [ 0 à la 'FiN' si vous ne voulez pas **ECHO** sur le channel. ]
   - DateTime :: 2023-04-29 23:56:21 **ANNÉE-MOiS-JOUR HEURE(24H):MiN:SECONDE**
     - addPRE :: !addpre [release.name] [section]
     - addOLD :: !addold [release.name] [section] [datetime]
@@ -55,9 +55,9 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
 
   **iNDEX FLAGS :**
   
-  Pour que vos commande fonctionne sur vos channel, il faut attribuer les flags necessaire
+  Pour que vos commandes fonctionnent sur vos channels, il faut attribuer les flags nécéssaires
   
-  - FLAGS disponible :: bpadd - bpdb - bpecho - bpfiltre - bpnuke - bpsearch - bpstats
+  - FLAGS disponibles :: bpadd - bpdb - bpecho - bpfiltre - bpnuke - bpsearch - bpstats
   - ViA DCC CHAT ::  .chanset #chan +bpadd
 
 # FiN
