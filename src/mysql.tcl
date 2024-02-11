@@ -1,4 +1,4 @@
-if { [catch { package require bonaPRE-CONF-PUBLiC 1 }] } { die "${::bonaPRE::VAR(release)} modTCL * le fichier configuration.tcl doit être charger avant mysql.tcl" ; return }
+if { [catch { package require bonaPRE-CONF-PUBLiC 1 }] } { die "${::bonaPRE::VAR(release)} modTCL * le fichier configuration.tcl doit être chargé avant mysql.tcl" ; return }
 putlog "Tcl load \[::${::bonaPRE::VAR(release)}::MySQL\]: modTCL chargé."
 
 proc ::bonaPRE::MySQL:KeepAlive { } {
@@ -20,7 +20,7 @@ proc ::bonaPRE::MySQL:KeepAlive { } {
 	}
 	if { [string match "*Server*has*gone*away*" ${::bonaPRE::mysql_(handle)}] } {
 		set ::bonaPRE::mysql_(handle) [::mysql::connect -multistatement 1 -host ${::bonaPRE::mysql_(host)} -user ${::bonaPRE::mysql_(user)} -password ${::bonaPRE::mysql_(password)} -db ${::bonaPRE::mysql_(db)}]
-		putlog "Tcl exec \[::${::bonaPRE::VAR(release)}::MySQL\]: Connexion avec success. 'KEEPALiVE' (BACK GONE AWAY) \[${::bonaPRE::mysql_(handle)}\]"
+		putlog "Tcl exec \[::${::bonaPRE::VAR(release)}::MySQL\]: Connexion avec succès. 'KEEPALiVE' (BACK GONE AWAY) \[${::bonaPRE::mysql_(handle)}\]"
 		utimer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL:KeepAlive]
 		return false;
 	} 
