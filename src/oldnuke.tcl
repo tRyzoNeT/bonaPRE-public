@@ -1,6 +1,6 @@
 proc ::bonaPRE::oldnuke:init { args } {
 	if { [catch { package require bonaPRE-SQL 1.0 }] } { 
-		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant oldnuke.tcl"]
+		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être chargé avant oldnuke.tcl"]
 		return -code error ${AE_LOGERR};
 	}
 }
@@ -118,13 +118,13 @@ proc ::bonaPRE::oldnukexec { args } {
 	set OEX_Ech		[lindex ${args} 9]
 	if { [getuser ${OEX_Nick} XTRA uauth] == 1 } {
 		if { ![channel get ${OEX_Chan} bpnuke] } {
-			set OEX_LOGERR	[format "L'utilisateur %s à tenté un !old%s sur %s, mais le salon n'a pas les *flags* necéssaire." ${OEX_Nick} ${OEX_Sta} ${OEX_Chan}]
-			set OEX_MSGERR	[format "%s à tenté un !old%s, mais le salon n'a pas les *flags* necéssaire." ${OEX_Nick} ${OEX_Sta}]
+			set OEX_LOGERR	[format "L'utilisateur %s a tenté un !old%s sur %s, mais le salon n'a pas les *flags* necéssaires." ${OEX_Nick} ${OEX_Sta} ${OEX_Chan}]
+			set OEX_MSGERR	[format "%s a tenté un !old%s, mais le salon n'a pas les *flags* necéssaires." ${OEX_Nick} ${OEX_Sta}]
 			putquick "privmsg ${OEX_Chan} ${OEX_MSGERR}"
 			return -code error ${OEX_LOGERR};
 		}
 		if { ${OEX_Nnet} == "" } {
-			set OEX_LOGERR	[format "Syntax * %s à tenté un !old%s sur %s, mais manque d'information..." ${OEX_Nick} ${OEX_Sta} ${OEX_Chan}]
+			set OEX_LOGERR	[format "Syntax * %s a tenté un !old%s sur %s, mais manque d'informations..." ${OEX_Nick} ${OEX_Sta} ${OEX_Chan}]
 			set OEX_MSGERR	[format "Syntax * !old%s <nom.de.la.release> <raison> <nukenet> <datetime> **2022-10-21 23:56:21**" ${OEX_Sta}]
 			putquick "privmsg ${OEX_Chan} ${OEX_MSGERR}"
 			return -code error ${OEX_LOGERR};
@@ -153,8 +153,8 @@ proc ::bonaPRE::oldnukexec { args } {
 			return -code error ${OEX_LOGERR};
 		}
 	} else {
-		set OEX_LOGERR [format "uAUTH * %s n'est pas iDENTiFiER au EGGDROP..." ${OEX_Nick}]
-		set OEX_MSGERR	[format "uAUTH * Tes pas iDENTiFiER au EGGDROP... CouCOU!!"]
+		set OEX_LOGERR [format "uAUTH * %s n'est pas iDENTiFiÉ au EGGDROP..." ${OEX_Nick}]
+		set OEX_MSGERR	[format "uAUTH * Tu n'es pas iDENTiFiÉ au EGGDROP... CouCOU!!"]
   		putquick "privmsg ${OEX_Chan} ${OEX_MSGERR}"
   		return -code error ${OEX_LOGERR};
 	}
