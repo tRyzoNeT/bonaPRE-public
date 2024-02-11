@@ -1,6 +1,6 @@
 proc ::bonaPRE::nuke:init { args } {
 	if { [catch { package require bonaPRE-SQL 1.0 }] } { 
-		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant nuke.tcl"]
+		set AE_LOGERR 	[format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être chargé avant nuke.tcl"]
 		return -code error ${AE_LOGERR};
 	}
 }
@@ -117,13 +117,13 @@ proc ::bonaPRE::nukexec { args } {
 	set EC_Ech	[lindex ${args} 8]
 	if { [getuser ${EC_Nick} XTRA uauth] == 1 } {
 		if { ![channel get ${EC_Chan} bpnuke] } {
-			set EC_LOGERR	[format "L'utilisateur %s à tenté un !%s sur %s, mais le salon n'a pas les *flags* necéssaire." ${EC_Nick} ${EC_Sta} ${EC_Chan}]
-			# set EC_MSGERR	[format "%s à tenté un !%s, mais le salon n'a pas les *flags* necéssaire." ${EC_Nick} ${EC_Sta}]
+			set EC_LOGERR	[format "L'utilisateur %s a tenté un !%s sur %s, mais le salon n'a pas les *flags* necéssaires." ${EC_Nick} ${EC_Sta} ${EC_Chan}]
+			# set EC_MSGERR	[format "%s a tenté un !%s, mais le salon n'a pas les *flags* necéssaires." ${EC_Nick} ${EC_Sta}]
 			# putquick "privmsg ${EC_Chan} ${EC_MSGERR}"
 			return -code error ${EC_LOGERR};
 		}
 		if { ${EC_Nnet} == "" } {
-			set EC_LOGERR	[format "Syntax * %s à tenté un !%s sur %s, mais manque d'information..." ${EC_Nick} ${EC_Sta} ${EC_Chan}]
+			set EC_LOGERR	[format "Syntax * %s a tenté un !%s sur %s, mais manque d'informations..." ${EC_Nick} ${EC_Sta} ${EC_Chan}]
 			set EC_MSGERR	[format "Syntax * !%s <nom.de.la.release> <raison> <nukenet>" ${EC_Sta}]
 			putquick "privmsg ${EC_Chan} ${EC_MSGERR}"
 			return -code error ${EC_LOGERR};
@@ -152,8 +152,8 @@ proc ::bonaPRE::nukexec { args } {
 			return -code error ${EC_LOGERR};
 		}
 	} else {
-		set EC_LOGERR [format "uAUTH * %s n'est pas iDENTiFiER au EGGDROP..." ${EC_Nick}]
-		set EC_MSGERR	[format "uAUTH * Tes pas iDENTiFiER au EGGDROP... CouCOU!!"]
+		set EC_LOGERR [format "uAUTH * %s n'est pas iDENTiFiÉ au EGGDROP..." ${EC_Nick}]
+		set EC_MSGERR	[format "uAUTH * Tu n'es pas iDENTiFiÉ au EGGDROP... CouCOU!!"]
   		putquick "privmsg ${EC_Chan} ${EC_MSGERR}"
   		return -code error ${EC_LOGERR};
 	}
