@@ -26,6 +26,12 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
   - Une actualisation avec MySQL toutes les **X** secondes/minutes (temps) pour maintenir une connexion. 'KEEPALiVE' 
     - **PS**: le temps d'actualisation est modifiable via le fichier de .conf
   - 2 bases de donnnées MySQL requises pour ce prebot **MAiN et NUKE**
+- AUCUNE restriction (src_no.restrict)
+  - DOSSiER 'src_no.restrict' est la meme source d'origine sauf SANS systeme d'identification uAUTH. Faite votre choix les amis.
+  -------------------------------------------------------------------------------------------------------
+
+  **CMD DiSPO :**
+  
 - Les CMD disponibles, simplement CHARGEZ le **.TCL** voulu
   - Option :: <0> [ 0 à la 'FiN' si vous ne voulez pas **ECHO** sur le channel. ]
   - DateTime :: 2023-04-29 23:56:21 **ANNÉE-MOiS-JOUR HEURE(24H):MiN:SECONDE**
