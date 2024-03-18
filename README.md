@@ -41,7 +41,7 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
     - chgSEC :: !chgsec [release.name] [nouvelle.section]
     - chgSiZE :: !chgsize [release.name] [ taille.MB]
     - chgTiME :: !chgtime [release.name] [datetime] **ANNÉE-MOiS-JOUR HEURE(24H):MiN:SECONDE**
-    - DB :: !db **iNFO DATABASE MySQL**
+    - DB :: !db 'main ou 'nuke' **iNFO DATABASE MySQL/XTRA**
     - delPRE :: !delpre [release.name] [raison.du.nuke] [nom.nukenet]
     - OLDdelPRE :: !olddelpre [release.name] [raison.du.nuke] [nom.nukenet]
     - iNFO :: !info [release.name] [nombre.fichier] [taille.MB]
