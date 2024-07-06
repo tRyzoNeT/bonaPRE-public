@@ -14,7 +14,7 @@ mars 2024 * pre_mod01.tcl
 MODDED/UPDATED ajout ECHO les infos des URL ajouter a la DB, lors de la commande !pre.
 
 ```
-[07:05 15:07] og> !pute Mystic.Christmas.2023.1080p.WEB.h264-CBFM
+[07:05 15:07] og> !pre Mystic.Christmas.2023.1080p.WEB.h264-CBFM
 [07:05 15:07] lemOn> (PRE) Mystic.Christmas.2023.1080p.WEB.H264-CBFM - TV-HD (id: 217095)
 [07:05 15:07] lemOn> (DateTiME) 2024-07-05 17:23:56 - 1720214636 - 0 seconds
 [07:05 15:07] lemOn> (iNFO) 11 fichier | 4911.000 mb
