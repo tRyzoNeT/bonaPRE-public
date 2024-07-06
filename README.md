@@ -1,4 +1,4 @@
-# bonaPRE.v1P.FRENCH.EGGDROP.TCL-RaW
+# bonaPRE.v1.1P.FRENCH.EGGDROP.TCL-RaW
 
 **Suggestions & Aide & Etc.... C'est par ici les amis!!! XD**
 
@@ -28,19 +28,24 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
   - 2 bases de donnnées MySQL requises pour ce prebot **MAiN et NUKE**
 - AUCUNE restriction (src_no.restrict)
   - DOSSiER 'src_no.restrict' est la meme source d'origine sauf SANS systeme d'identification uAUTH. Faite votre choix les amis.
+
+**VERSiON 1.1P ?! :**
+- Lien avec MySQL :
+  - Ajout d'une bases de donnnées MySQL requis **XTRA_URL**
+  - 3 bases de donnnées MySQL requises pour ce prebot **MAiN, NUKE et XTRA_URL**
+    
+-  Supression de l'identification uauth.tcl... 
   -------------------------------------------------------------------------------------------------------
 
   **CMD DiSPO :**
   
 - Les CMD disponibles, simplement CHARGEZ le **.TCL** voulu
-  - Option :: <0> [ 0 à la 'FiN' si vous ne voulez pas **ECHO** sur le channel. ]
   - DateTime :: 2023-04-29 23:56:21 **ANNÉE-MOiS-JOUR HEURE(24H):MiN:SECONDE**
+    - addURL :: !addurl [release.name] [https://www.lien.url/]
+    - addIMDB :: !addimdb [release.name] [tt27813285] **info iMDB seulement**
     - addPRE :: !addpre [release.name] [section]
+    - addTVMAZE :: !addtvmaze [release.name] [66715] **numero de TVMAZE seulement**
     - addOLD :: !addold [release.name] [section] [datetime]
-    - chgFiLE :: !chgfile [release.name] [nombres.fichiers]
-    - chgSEC :: !chgsec [release.name] [nouvelle.section]
-    - chgSiZE :: !chgsize [release.name] [ taille.MB]
-    - chgTiME :: !chgtime [release.name] [datetime] **ANNÉE-MOiS-JOUR HEURE(24H):MiN:SECONDE**
     - DB :: !db 'main ou 'nuke' **iNFO DATABASE MySQL/XTRA**
     - delPRE :: !delpre [release.name] [raison.du.nuke] [nom.nukenet]
     - OLDdelPRE :: !olddelpre [release.name] [raison.du.nuke] [nom.nukenet]
@@ -63,7 +68,7 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
   
   Pour que vos commandes fonctionnent sur vos channels, il faut attribuer les flags nécéssaires
   
-  - FLAGS disponibles :: bpadd - bpdb - bpecho - bpfiltre - bpnuke - bpsearch - bpstats
+  - FLAGS disponibles :: bpadd - bpdb - bpecho - bpfiltre - bpnuke - bpsearch - bpstats - bpurl
   - ViA DCC CHAT ::  .chanset #chan +bpadd
 
 # FiN
