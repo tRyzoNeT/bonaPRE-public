@@ -31,6 +31,7 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
 
 **VERSiON 1.1P ?! :**
 - Lien avec MySQL :
+  - Une connexion via SSL avec MySQL pour de meilleur securite.
   - Ajout d'une bases de donnnées MySQL requis **XTRA_URL**
   - 3 bases de donnnées MySQL requises pour ce prebot **MAiN, NUKE et XTRA_URL**
     
