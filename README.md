@@ -15,27 +15,24 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
   - **disque dur SSD recommandé ou NVME pour de meilleures performances**
   -------------------------------------------------------------------------------------------------------
 
-  **VERSiON 1P ?! :**
+  **bonaPRE?! :**
 
-- Le CODE est complètement révisé pour être optimisé pour TCL 1.6+ et eggdrop 1.9+
+- CODE complètement révisé pour être optimisé pour TCL 1.6+ et eggdrop 1.9+
 - Simplification & Re-Structuration du CODE, cela a permis :
   - Accélérer les commandes de l'eggdrop.
   - Éviter des bugs dans l`avenir, il suffira de **CHARGER** les *.tcl voulus.
 - Lien avec MySQL :
-  - Une connexion avec MySQL demeurre ouverte pour y accéder et obtenir une meilleure réponse aux commandes.
+  - Une connexion **SSL** en options avec MySQL demeurre ouverte pour y accéder et obtenir une meilleure réponse aux commandes.
   - Une actualisation avec MySQL toutes les **X** secondes/minutes (temps) pour maintenir une connexion. 'KEEPALiVE' 
     - **PS**: le temps d'actualisation est modifiable via le fichier de .conf
-  - 2 bases de donnnées MySQL requises pour ce prebot **MAiN et NUKE**
-- AUCUNE restriction (src_no.restrict)
-  - DOSSiER 'src_no.restrict' est la meme source d'origine sauf SANS systeme d'identification uAUTH. Faite votre choix les amis.
+  - 3 bases de donnnées MySQL requises pour ce prebot **MAiN et NUKE et XTRA_URL**
+- Restriction, les .tcl sont gerer par des FLAGS.
 
 **VERSiON 1.1P ?! :**
 - Lien avec MySQL :
-  - Une connexion via SSL avec MySQL pour de meilleur securite.
+  - Ajout options connexion SSL avec MySQL pour de meilleur securite.
   - Ajout d'une bases de donnnées MySQL requis **XTRA_URL**
-  - 3 bases de donnnées MySQL requises pour ce prebot **MAiN, NUKE et XTRA_URL**
-    
--  Supression de l'identification uauth.tcl... 
+-  Supression de l'identification uauth.tcl car les .tcl sont deja gerer par des FLAGS.
   -------------------------------------------------------------------------------------------------------
 
   **CMD DiSPO :**
