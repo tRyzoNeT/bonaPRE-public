@@ -42,7 +42,7 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
   
 - Les CMD disponibles, simplement CHARGEZ le **.TCL** voulu
   - DateTime :: 2023-04-29 23:56:21 **ANNÉE-MOiS-JOUR HEURE(24H):MiN:SECONDE**
-    - addURL :: !addurl [release.name] [https://www.lien.url/]
+    - addURL :: !addurl [release.name] [https://lienurl/]
     - addIMDB :: !addimdb [release.name] [tt27813285] **info iMDB seulement**
     - addPRE :: !addpre [release.name] [section]
     - addTVMAZE :: !addtvmaze [release.name] [66715] **numero de TVMAZE seulement**
