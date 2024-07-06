@@ -28,6 +28,8 @@ Ce qui est nécessaire au bon fonctionnement :: eggdrop - mysqld - mysqltcl
   - 3 bases de donnnées MySQL requises pour ce prebot **MAiN et NUKE et XTRA_URL**
 - Restriction, les .tcl sont gerer par des FLAGS.
 
+**VERSiON 1P : OUTDATED, SUPRiMER...**
+
 **VERSiON 1.1P ?! :**
 - Lien avec MySQL :
   - Ajout options connexion SSL avec MySQL pour de meilleur securite.
