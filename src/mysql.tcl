@@ -3,7 +3,14 @@ putlog "Tcl load \[::${::bonaPRE::VAR(release)}::MySQL_SSL\]: modTCL chargé."
 
 proc ::bonaPRE::MySQL:KeepAlive { } {
   if { ![info exists ::bonaPRE::mysql_(handle)] || [mysql::state ${::bonaPRE::mysql_(handle)} -numeric] == 0 || ![mysql::ping ${::bonaPRE::mysql_(handle)}] } {
-    if { [catch { set ::bonaPRE::mysql_(handle) [::mysql::connect -multistatement 1 -ssl 1 -host ${::bonaPRE::mysql_(host)} -user ${::bonaPRE::mysql_(user)} -password ${::bonaPRE::mysql_(password)} -db ${::bonaPRE::mysql_(db)}] } MYSQL_ERR] } {
+    if { [catch { set ::bonaPRE::mysql_(handle) [::mysql::connect                             \
+                                                  -multistatement 1                           \
+                                                  -ssl      "${::bonaPRE::mysql_(mode_ssl)}"  \
+                                                  -host     "${::bonaPRE::mysql_(host)}"      \
+                                                  -user     "${::bonaPRE::mysql_(user)}"      \
+                                                  -password "${::bonaPRE::mysql_(password)}"  \
+                                                  -db       "${::bonaPRE::mysql_(db)}"        \
+                                                ] } MYSQL_ERR] } {
       if { [string match "*Access*denied*" ${MYSQL_ERR}] } {
         putlog "Tcl error \[::${::bonaPRE::VAR(release)}::MySQL\]: vérifier les informations MySQL."
         utimer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL:KeepAlive]

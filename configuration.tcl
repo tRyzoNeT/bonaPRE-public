@@ -10,6 +10,7 @@ namespace eval ::bonaPRE {
     "user"            "mysql_user"                                              \
     "password"        "mysql_pass"                                              \
     "host"            "mysql_host-ip"                                           \
+    "mode_ssl"        0                                                         \
     "db"              "mysql_db"                                                \
     "dbmain"          "MAIN"                                                    \
     "dburl"           "XTRA_URL"                                                \
