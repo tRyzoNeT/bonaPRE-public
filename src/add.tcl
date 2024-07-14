@@ -1,10 +1,9 @@
-proc ::bonaPRE::add:init { args } {
-  if { [catch { package require bonaPRE-SQL 1.1 }] } {
-    set AE_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant add.tcl"]
-    return -code error ${AE_LOGERR};
-  }
+
+if { [catch { package require bonaPRE-SQL 1.1 }] } {
+  set AE_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant add.tcl"]
+  return -code error ${AE_LOGERR};
 }
-::bonaPRE::add:init
+
 
 bind pub -|- !addpre ::bonaPRE::addpre
 bind pub -|- !addold ::bonaPRE::addold

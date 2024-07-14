@@ -1,10 +1,9 @@
-proc ::bonaPRE::info:init { args } {
-  if { [catch { package require bonaPRE-SQL 1.1 }] } {
-    set AI_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant info.tcl"]
-    return -code error ${AI_LOGERR};
-  }
+
+if { [catch { package require bonaPRE-SQL 1.1 }] } {
+  set AI_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant info.tcl"]
+  return -code error ${AI_LOGERR};
 }
-::bonaPRE::info:init
+
 
 bind pub -|- !info ::bonaPRE::ainfo
 bind pub -|- !oldinfo ::bonaPRE::oinfo

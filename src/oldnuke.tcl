@@ -1,10 +1,7 @@
-proc ::bonaPRE::oldnuke:init { args } {
-  if { [catch { package require bonaPRE-SQL 1.0 }] } { 
-    set AE_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant oldnuke.tcl"]
-    return -code error ${AE_LOGERR};
-  }
+if { [catch { package require bonaPRE-SQL 1.0 }] } { 
+  set AE_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant oldnuke.tcl"]
+  return -code error ${AE_LOGERR};
 }
-::bonaPRE::oldnuke:init
 
 bind pub -|- !olddelpre ::bonaPRE::olddelpre
 bind pub -|- !oldmoddelpre ::bonaPRE::oldmoddelpre

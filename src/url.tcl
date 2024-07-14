@@ -1,10 +1,9 @@
-proc ::bonaPRE::addurl:init { args } {
-  if { [catch { package require bonaPRE-SQL 1.0 }] } {
-    set AI_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant url.tcl"]
-    return -code error ${AI_LOGERR};
-  }
+
+if { [catch { package require bonaPRE-SQL 1.0 }] } {
+  set AI_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant url.tcl"]
+  return -code error ${AI_LOGERR};
 }
-::bonaPRE::addurl:init
+
 
 namespace eval ::bonaPRE {
   array set CMD     [list                                                       \
