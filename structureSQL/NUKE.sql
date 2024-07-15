@@ -9,7 +9,7 @@ CREATE TABLE `NUKE` (
   `rlsname` varchar(256) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `group` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT '',
   `datetime` datetime NOT NULL DEFAULT current_timestamp(),
-  `nuke` set('DELPRE','NUKE','MODDELPRE','MODNUKE','MODUNNUKE','UNDELPRE','UNNUKE') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
+  `nuke` set('NUKE','MODNUKE','MODUNNUKE','UNNUKE') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
   `raison` varchar(256) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nukenet` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`id`)

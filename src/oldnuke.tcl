@@ -3,39 +3,10 @@ if { [catch { package require bonaPRE-SQL 1.0 }] } {
   return -code error ${AE_LOGERR};
 }
 
-bind pub -|- !olddelpre ::bonaPRE::olddelpre
-bind pub -|- !oldmoddelpre ::bonaPRE::oldmoddelpre
 bind pub -|- !oldmodnuke ::bonaPRE::oldmodnuke
 bind pub -|- !oldmodunnuke ::bonaPRE::oldmodunnuke
 bind pub -|- !oldnuke ::bonaPRE::oldnuke
-bind pub -|- !oldundelpre ::bonaPRE::oldundelpre
 bind pub -|- !oldunnuke ::bonaPRE::oldunnuke
-
-proc ::bonaPRE::olddelpre { nick uhost hand chan arg } {
-  set OD_Name       [lindex ${arg} 0]
-  set OD_Grp        [lindex [split ${OD_Name} -] end]
-  set OD_Raison     [lindex ${arg} 1]
-  set OD_Nukenet    [lindex ${arg} 2]
-  set OD_Date       [lindex ${arg} 3]
-  set OD_Time       [lindex ${arg} 4]
-  set OD_Echo       [lindex ${arg} 5]
-  set OD_Chan       ${chan}
-  ::bonaPRE::oldnukexec ${nick} ${OD_Chan} ${OD_Date} ${OD_Time} ${OD_Name} ${OD_Grp} ${OD_Raison} ${OD_Nukenet} DELPRE ${OD_Echo}
-  return false;
-}
-
-proc ::bonaPRE::oldmoddelpre { nick uhost hand chan arg } {
-  set OMD_Name      [lindex ${arg} 0]
-  set OMD_Grp       [lindex [split ${OMD_Name} -] end]
-  set OMD_Raison    [lindex ${arg} 1]
-  set OMD_Nukenet   [lindex ${arg} 2]
-  set OMD_Date      [lindex ${arg} 3]
-  set OMD_Time      [lindex ${arg} 4]
-  set OMD_Echo      [lindex ${arg} 5]
-  set OMD_Chan      ${chan}
-  ::bonaPRE::oldnukexec ${nick} ${OMD_Chan} ${OMD_Date} ${OMD_Time} ${OMD_Name} ${OMD_Grp} ${OMD_Raison} ${OMD_Nukenet} MODDELPRE ${OMD_Echo}
-  return false;
-}
 
 proc ::bonaPRE::oldmodnuke { nick uhost hand chan arg } {
   set OMN_Name      [lindex ${arg} 0]
