@@ -45,12 +45,12 @@ proc ::bonaPRE::MySQL::connectAndLog {{reconnect 0}} {
     return -error $messageError
   }
   if {$reconnect} {
-    putlog  [format "Tcl exec \[::%s::MySQL\]: reconnexion avec succès. 'KEEPALiVE' \[%s\]" \
+    putlog  [format "Tcl exec \[::%s::MySQL\]: reconnexion avec succès. 'KeepAlive' \[%s\]" \
                       ${::bonaPRE::VAR(release)}                                \
                       $handle                                                   \
             ];
   } else {
-    putlog  [format "Tcl exec \[::%s::MySQL]: Connexion avec succès. 'KEEPALiVE' \[%s\]" \
+    putlog  [format "Tcl exec \[::%s::MySQL]: Connexion avec succès. 'KeepAlive' \[%s\]" \
                       ${::bonaPRE::VAR(release)}                                \
                       $handle                                                   \
             ];
@@ -69,13 +69,13 @@ proc ::bonaPRE::MySQL::KeepAlive {} {
     set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::connectAndLog 1]
   } else {
     # Si la connexion est active, affiche un message de confirmation.
-    putlog "Tcl exec [::${::bonaPRE::VAR(release)}::MySQL]: Connexion active. 'KEEPALiVE' [${::bonaPRE::mysql_(handle)}]"
+    putlog "Tcl exec [::${::bonaPRE::VAR(release)}::MySQL]: Connexion active. 'KeepAlive' [${::bonaPRE::mysql_(handle)}]"
   }
   return -ok $::bonaPRE::mysql_(handle)
 }
 
 # Démarre le mécanisme de KeepAlive pour maintenir la connexion MySQL active.
-::bonaPRE::MySQL:KeepAlive 
+::bonaPRE::MySQL::KeepAlive 
 
 # Indique la version du package fournie.
 package provide bonaPRE-SQL 1.1
