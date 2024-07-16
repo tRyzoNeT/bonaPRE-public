@@ -64,7 +64,7 @@ proc ::bonaPRE::MySQL::KeepAlive {} {
   if { ![info exists ::bonaPRE::mysql_(handle)] } {
     # Si aucune poignée de connexion n'existe, établit une nouvelle connexion.
     set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::connectAndLog]
-  } elseif { ![::bonaPRE::MySQL::ping $::bonaPRE::mysql_(handle)] } {
+  } elseif { ![::mysql::ping $::bonaPRE::mysql_(handle)] } {
     # Si la connexion existe mais n'est pas active, tente de reconnecter.
     set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::connectAndLog 1]
   } else {
