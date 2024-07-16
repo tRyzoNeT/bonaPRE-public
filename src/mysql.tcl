@@ -18,17 +18,18 @@ proc ::bonaPRE::MySQL::handleError {mysqlError} {
 # Établit une connexion à la base de données MySQL avec les paramètres spécifiés.
 proc ::bonaPRE::MySQL::connect {} {
   if { [catch {
-    set handle [::mysql::connect                                            \
-      -multistatement     1                                               \
-      -ssl                "${::bonaPRE::mysql_(mode_ssl)}"                \
-      -host               "${::bonaPRE::mysql_(host)}"                    \
-      -user               "${::bonaPRE::mysql_(user)}"                    \
-      -password           "${::bonaPRE::mysql_(password)}"                \
-      -db                 "${::bonaPRE::mysql_(db)}"
+    set handle [::mysql::connect                                                \
+      -multistatement           1                                               \
+      -ssl                      "${::bonaPRE::mysql_(mode_ssl)}"                \
+      -host                     "${::bonaPRE::mysql_(host)}"                    \
+      -user                     "${::bonaPRE::mysql_(user)}"                    \
+      -password                 "${::bonaPRE::mysql_(password)}"                \
+      -db                       "${::bonaPRE::mysql_(db)}"
     ]
   } MYSQL_ERR] } {
+    unset ::bonaPRE::mysql_(handle)
     # En cas d'erreur de connexion, gère l'erreur et retourne le message approprié.
-    set messageError [::bonaPRE::MySQL::handleError $MYSQL_ERR]
+    set messageError            [::bonaPRE::MySQL::handleError $MYSQL_ERR]
     putlog $messageError
     return -error $messageError
   }
@@ -38,9 +39,9 @@ proc ::bonaPRE::MySQL::connect {} {
 # Établit une connexion à MySQL et gère les erreurs de manière loggée.
 proc ::bonaPRE::MySQL::connectAndLog {{reconnect 0}} {
   if { [catch { 
-    set handle              [::bonaPRE::MySQL::connect]
+    set handle                  [::bonaPRE::MySQL::connect]
    } MYSQL_ERR] } {
-    set messageError        [::bonaPRE::MySQL::handleError $MYSQL_ERR]
+    set messageError            [::bonaPRE::MySQL::handleError $MYSQL_ERR]
     putlog $messageError
     return -error $messageError
   }
@@ -64,7 +65,7 @@ proc ::bonaPRE::MySQL::KeepAlive {} {
   if { ![info exists ::bonaPRE::mysql_(handle)] } {
     # Si aucune poignée de connexion n'existe, établit une nouvelle connexion.
     set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::connectAndLog]
-  } elseif { ![::mysql::ping $::bonaPRE::mysql_(handle)] } {
+  } elseif {  ![::mysql::ping $::bonaPRE::mysql_(handle)] } {
     # Si la connexion existe mais n'est pas active, tente de reconnecter.
     set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::connectAndLog 1]
   } else {
