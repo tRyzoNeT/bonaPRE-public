@@ -4,8 +4,7 @@ if { [catch { package require bonaPRE-CONF-PUBLiC 1.1 }] } {
   return
 }
 
-# Affiche un message de confirmation pour le chargement du module MySQL_SSL.
-putlog "Tcl load \[::${::bonaPRE::VAR(release)}::MySQL_SSL\]: modTCL chargé."
+namespace eval ::bonaPRE::MySQL {}
 
 # Gère les erreurs spécifiques de MySQL et retourne un message approprié.
 proc ::bonaPRE::MySQL::handleError {mysqlError} {
@@ -80,3 +79,6 @@ proc ::bonaPRE::MySQL::KeepAlive {} {
 
 # Indique la version du package fournie.
 package provide bonaPRE-SQL 1.1
+
+# Affiche un message de confirmation pour le chargement du module MySQL_SSL.
+putlog "Tcl load \[::${::bonaPRE::VAR(release)}::MySQL_SSL\]: modTCL chargé."
