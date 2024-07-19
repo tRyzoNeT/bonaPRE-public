@@ -92,15 +92,15 @@ proc ::bonaPRE::urlADDEXEC { args } {
   set UAE_Sql       "INSERT IGNORE INTO ${::bonaPRE::mysql_(dburl)} "
   append UAE_Sql    "( `${::bonaPRE::dburl_(rlsname)}`, `${::bonaPRE::dburl_(group)}`, `${::bonaPRE::dburl_(lastupdated)}`, `${UAE_SQLTAG}` ) ";
   append UAE_Sql    "VALUES ( '${UAE_Rls}', '${UAE_Group}', '${UAE_Time}', '${UAE_Var}' );";
-  set UAE_Sqld      [::mysql::exec ${::bonaPRE::mysql_(handle)} ${UAE_Sql}];
-  set UAE_Sqlid     [::mysql::insertid ${::bonaPRE::mysql_(handle)}]
+  set UAE_Sqld      [::mysql::exec [::bonaPRE::MySQL::getHandle] ${UAE_Sql}];
+  set UAE_Sqlid     [::mysql::insertid [::bonaPRE::MySQL::getHandle]]
   if { ${UAE_Sqld} == "0" } {
     set UAE_SqlUP     "UPDATE `${::bonaPRE::mysql_(dburl)}` ";
     append UAE_SqlUP  "SET `${::bonaPRE::dburl_(group)}`='${UAE_Group}', `${::bonaPRE::dburl_(lastupdated)}`='${UAE_Time}', `${UAE_SQLTAG}`='${UAE_Var}' ";
     append UAE_SqlUP  "WHERE `${::bonaPRE::dburl_(rlsname)}`='${UAE_Rls}';";
-    set UAE_SqldUP    [::mysql::exec ${::bonaPRE::mysql_(handle)} ${UAE_SqlUP}];
+    set UAE_SqldUP    [::mysql::exec [::bonaPRE::MySQL::getHandle] ${UAE_SqlUP}];
     set UAE_Sqldid1   "SELECT `${::bonaPRE::dburl_(id)}` FROM `${::bonaPRE::mysql_(dburl)}` WHERE `${::bonaPRE::db_(rlsname)}` LIKE '${UAE_Rls}%'";
-    set UAE_Sqldid2   [::mysql::sel ${::bonaPRE::mysql_(handle)} ${UAE_Sqldid1} -flatlist];
+    set UAE_Sqldid2   [::mysql::sel [::bonaPRE::MySQL::getHandle] ${UAE_Sqldid1} -flatlist];
     lassign  ${UAE_Sqldid2} UAE_SqlidOK;
     set UAE_LOGOK     [format "Tcl exec \[::${::bonaPRE::VAR(release)}::${UAE_Sta}\]: L'exécution de la requête %s pour %s (id: %s)" ${UAE_SqldUP} ${UAE_Rls} ${UAE_SqlidOK}]
     set UAE_MSGOK     [format "%s - %s %s (id: %s)" ${UAE_Sta} ${UAE_Rls} ${UAE_Var} ${UAE_SqlidOK}]

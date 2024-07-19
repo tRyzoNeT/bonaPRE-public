@@ -99,8 +99,8 @@ proc ::bonaPRE::oldnukexec { args } {
   set OEX_Sql       "INSERT INTO ${::bonaPRE::mysql_(dbnuke)} "
   append OEX_Sql    "( `${::bonaPRE::nuke_(rlsname)}`, `${::bonaPRE::nuke_(group)}`, `${::bonaPRE::nuke_(datetime)}`, `${::bonaPRE::nuke_(nuke)}`, `${::bonaPRE::nuke_(raison)}`, `${::bonaPRE::nuke_(nukenet)}` ) ";
   append OEX_Sql    "VALUES ( '${OEX_Rls}', '${OEX_Grp}', '${OEX_Date} ${OEX_Time}', '${OEX_Sta}', '${OEX_Ra}', '${OEX_Nnet}' );";
-  set OEX_Sqld      [::mysql::exec ${::bonaPRE::mysql_(handle)} ${OEX_Sql}];
-  set OEX_Sqlid     [::mysql::insertid ${::bonaPRE::mysql_(handle)}]
+  set OEX_Sqld      [::mysql::exec [::bonaPRE::MySQL::getHandle] ${OEX_Sql}];
+  set OEX_Sqlid     [::mysql::insertid [::bonaPRE::MySQL::getHandle]]
   if {  ${OEX_Sqld} == "1" } {
     if { ${OEX_Ech} == "0" } {
       set OEX_LOGOK [format "Tcl exec \[::${::bonaPRE::VAR(release)}::NUKE\]: L'exécution de la requête %s pour %s (id: %s)" ${OEX_Sqld} ${OEX_Rls} ${OEX_Sqlid}]

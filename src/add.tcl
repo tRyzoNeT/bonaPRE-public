@@ -58,8 +58,8 @@ proc ::bonaPRE::addexec { args } {
   set AE_Sql        "INSERT IGNORE INTO ${::bonaPRE::mysql_(dbmain)} "
   append AE_Sql     "( `${::bonaPRE::db_(rlsname)}`, `${::bonaPRE::db_(group)}`, `${::bonaPRE::db_(section)}`, `${::bonaPRE::db_(datetime)}`, `${::bonaPRE::db_(lastupdated)}`, `${::bonaPRE::db_(status)}` ) ";
   append AE_Sql     "VALUES ( '${AE_Rls}', '${AE_Grp}', '${AE_Sec}', '${AE_Time}', '${AE_UTime}', '${AE_Sta}' );";
-  set AE_Sqld       [::mysql::exec ${::bonaPRE::mysql_(handle)} ${AE_Sql}];
-  set AE_Sqlid      [::mysql::insertid ${::bonaPRE::mysql_(handle)}]
+  set AE_Sqld       [::mysql::exec [::bonaPRE::MySQL::getHandle] ${AE_Sql}];
+  set AE_Sqlid      [::mysql::insertid [::bonaPRE::MySQL::getHandle]]
   if { ${AE_Sqld} == "1" } {
     set AE_LOGOK    [format "Tcl exec \[::${::bonaPRE::VAR(release)}::${AE_Sta}\]: L'exécution de la requête %s pour %s (id: %s)" ${AE_Sqld} ${AE_Rls} ${AE_Sqlid}]
     set AE_MSGOK    [format "%s - %s (%s)" ${AE_Sec} ${AE_Rls} ${AE_Sqlid}]

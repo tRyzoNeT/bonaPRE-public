@@ -1,85 +1,82 @@
-# Vérifie si le package bonaPRE-CONF-PUBLiC est chargé, sinon affiche une erreur.
-if { [catch { package require bonaPRE-CONF-PUBLiC 1.1 }] } {
-  die "${::bonaPRE::VAR(release)} modTCL * le fichier configuration.tcl doit être chargé avant mysql.tcl"
+# Vérifie si le package bonaPRE-CONF-PUBLIC est chargé, sinon affiche une erreur.
+if { [catch { package require bonaPRE-CONF-PUBLIC 1.1 }] } {
+  die "${::bonaPRE::VAR(release)} modTCL : le fichier configuration.tcl doit être chargé avant mysql.tcl"
   return
 }
 
+# Crée un espace de nom pour les procédures MySQL
 namespace eval ::bonaPRE::MySQL {}
 
 # Gère les erreurs spécifiques de MySQL et retourne un message approprié.
 proc ::bonaPRE::MySQL::handleError {mysqlError} {
+  # Vérifie si l'erreur contient "Access denied"
   if { [string match "*Access*denied*" $mysqlError] } {
-    return "Tcl error [::${::bonaPRE::VAR(release)}::MySQL]: vérifier les informations MySQL."
+    return "Erreur Tcl [::${::bonaPRE::VAR(release)}::MySQL] : vérifier les informations MySQL."
   } else {
-    return "Tcl error [::${::bonaPRE::VAR(release)}::MySQL]: SQL FATAL [::mysql::connect]: $mysqlError"
+    return "Erreur Tcl [::${::bonaPRE::VAR(release)}::MySQL] : erreur SQL fatale [::mysql::connect] : $mysqlError"
   }
 }
 
 # Établit une connexion à la base de données MySQL avec les paramètres spécifiés.
 proc ::bonaPRE::MySQL::connect {} {
   if { [catch {
-    set handle [::mysql::connect                                                \
-      -multistatement           1                                               \
-      -ssl                      "${::bonaPRE::mysql_(mode_ssl)}"                \
-      -host                     "${::bonaPRE::mysql_(host)}"                    \
-      -user                     "${::bonaPRE::mysql_(user)}"                    \
-      -password                 "${::bonaPRE::mysql_(password)}"                \
-      -db                       "${::bonaPRE::mysql_(db)}"
+    # Établit la connexion à la base de données MySQL
+    set handle [::mysql::connect \
+      -multistatement 1 \
+      -ssl "${::bonaPRE::mysql_(mode_ssl)}" \
+      -host "${::bonaPRE::mysql_(host)}" \
+      -user "${::bonaPRE::mysql_(user)}" \
+      -password "${::bonaPRE::mysql_(password)}" \
+      -db "${::bonaPRE::mysql_(db)}"
     ]
   } MYSQL_ERR] } {
-    unset ::bonaPRE::mysql_(handle)
     # En cas d'erreur de connexion, gère l'erreur et retourne le message approprié.
-    set messageError            [::bonaPRE::MySQL::handleError $MYSQL_ERR]
+    set messageError [::bonaPRE::MySQL::handleError $MYSQL_ERR]
     putlog $messageError
     return -error $messageError
   }
   return -ok $handle
 }
 
-# Établit une connexion à MySQL et gère les erreurs de manière loggée.
-proc ::bonaPRE::MySQL::connectAndLog {{reconnect 0}} {
-  if { [catch { 
-    set handle                  [::bonaPRE::MySQL::connect]
-   } MYSQL_ERR] } {
-    set messageError            [::bonaPRE::MySQL::handleError $MYSQL_ERR]
-    putlog $messageError
-    return -error $messageError
-  }
-  if {$reconnect} {
-    putlog  [format "Tcl exec \[::%s::MySQL\]: reconnexion avec succès. 'KeepAlive' \[%s\]" \
-                      ${::bonaPRE::VAR(release)}                                \
-                      $handle                                                   \
-            ];
-  } else {
-    putlog  [format "Tcl exec \[::%s::MySQL]: Connexion avec succès. 'KeepAlive' \[%s\]" \
-                      ${::bonaPRE::VAR(release)}                                \
-                      $handle                                                   \
-            ];
-  }
-  return $handle
-}
-
 # Assure que la connexion à MySQL reste active en utilisant un utimer pour le refresh.
 proc ::bonaPRE::MySQL::KeepAlive {} {
-  utimer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL::KeepAlive]
-  if { ![info exists ::bonaPRE::mysql_(handle)] } {
-    # Si aucune poignée de connexion n'existe, établit une nouvelle connexion.
-    set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::connectAndLog]
-  } elseif {  ![::mysql::ping $::bonaPRE::mysql_(handle)] } {
-    # Si la connexion existe mais n'est pas active, tente de reconnecter.
-    set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::connectAndLog 1]
-  } else {
+  if { [::bonaPRE::MySQL::getHandle] } {
     # Si la connexion est active, affiche un message de confirmation.
-    putlog "Tcl exec [::${::bonaPRE::VAR(release)}::MySQL]: Connexion active. 'KeepAlive' [${::bonaPRE::mysql_(handle)}]"
+    putlog "Tcl exec [::${::bonaPRE::VAR(release)}::MySQL] : Connexion active. 'KeepAlive' [${::bonaPRE::mysql_(handle)}]"
+  } else {
+    set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::getHandle]
+    # Si la connexion est inactive, affiche un message d'erreur.
+    putlog "Tcl exec [::${::bonaPRE::VAR(release)}::MySQL] : Connexion inactive. 'KeepAlive' [${::bonaPRE::mysql_(handle)}], reconnexion.."
   }
+  utimer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL::KeepAlive] 1 SQLKeepAlive
   return -ok $::bonaPRE::mysql_(handle)
+}
+
+# Vérifie si la connexion à MySQL est active.
+proc ::bonaPRE::MySQL::isActive {} {
+  if { [info exists ::bonaPRE::mysql_(handle)] && \
+       [::mysql::state ${::bonaPRE::mysql_(handle)} -numeric]!="1" && \
+       [::mysql::state ${::bonaPRE::mysql_(handle)} -numeric]!="0" } {
+    return 1
+  }
+  return 0
+}
+
+# Renvoie le handle de la connexion à MySQL.
+proc ::bonaPRE::MySQL::getHandle {} {
+  if {[info exists ::bonaPRE::mysql_(handle)]} {
+    if {[::bonaPRE::MySQL::isActive]} { 
+      return ${::bonaPRE::mysql_(handle)};
+    }
+  }
+  if {[catch { set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::connect] } mysqlError]} {
+    putlog "Erreur de connexion MySQL : $mysqlError"; return 0;
+    die "Erreur de connexion MySQL : $mysqlError"; return 0;
+  } else { return ${::bonaPRE::mysql_(handle)}; }
 }
 
 # Démarre le mécanisme de KeepAlive pour maintenir la connexion MySQL active.
 ::bonaPRE::MySQL::KeepAlive 
 
 # Indique la version du package fournie.
-package provide bonaPRE-SQL 1.1
-
-# Affiche un message de confirmation pour le chargement du module MySQL_SSL.
-putlog "Tcl load \[::${::bonaPRE::VAR(release)}::MySQL_SSL\]: modTCL chargé."
+package provide bonaPRE-SQL 1

@@ -86,8 +86,8 @@ proc ::bonaPRE::nukexec { args } {
   set EC_Sql        "INSERT INTO ${::bonaPRE::mysql_(dbnuke)} "
   append EC_Sql     "( `${::bonaPRE::nuke_(rlsname)}`, `${::bonaPRE::nuke_(group)}`, `${::bonaPRE::nuke_(datetime)}`, `${::bonaPRE::nuke_(nuke)}`, `${::bonaPRE::nuke_(raison)}`, `${::bonaPRE::nuke_(nukenet)}` ) ";
   append EC_Sql     "VALUES ( '${EC_Rls}', '${EC_Grp}', '${EC_Time}', '${EC_Sta}', '${EC_Ra}', '${EC_Nnet}' );";
-  set EC_Sqld       [::mysql::exec ${::bonaPRE::mysql_(handle)} ${EC_Sql}];
-  set EC_Sqlid      [::mysql::insertid ${::bonaPRE::mysql_(handle)}]
+  set EC_Sqld       [::mysql::exec [::bonaPRE::MySQL::getHandle] ${EC_Sql}];
+  set EC_Sqlid      [::mysql::insertid [::bonaPRE::MySQL::getHandle]]
   if {  ${EC_Sqld} == "1" } {
     if { ${EC_Ech} == "0" } {
       set EC_LOGOK  [format "Tcl exec \[::${::bonaPRE::VAR(release)}::NUKE\]: L'exécution de la requête %s pour %s (id: %s)" ${EC_Sqld} ${EC_Rls} ${EC_Sqlid}]

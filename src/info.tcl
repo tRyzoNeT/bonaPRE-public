@@ -54,9 +54,9 @@ proc ::bonaPRE::addinfo { args } {
   set AI_SqlUP      "UPDATE `${::bonaPRE::mysql_(dbmain)}` ";
   append AI_SqlUP   "SET `${::bonaPRE::db_(lastupdated)}`='${AI_Time}', `${::bonaPRE::db_(files)}`='${AI_File}', `${::bonaPRE::db_(size)}`='${AI_Size}' ";
   append AI_SqlUP   "WHERE `${::bonaPRE::db_(rlsname)}`='${AI_Rls}';";
-  set AI_SqldUP     [::mysql::exec ${::bonaPRE::mysql_(handle)} ${AI_SqlUP}];
+  set AI_SqldUP     [::mysql::exec [::bonaPRE::MySQL::getHandle] ${AI_SqlUP}];
   set AI_Sqldid1    "SELECT `${::bonaPRE::db_(id)}` FROM `${::bonaPRE::mysql_(dbmain)}` WHERE `${::bonaPRE::db_(rlsname)}` LIKE '${AI_Rls}%'";
-  set AI_Sqldid2    [::mysql::sel ${::bonaPRE::mysql_(handle)} ${AI_Sqldid1} -flatlist];
+  set AI_Sqldid2    [::mysql::sel [::bonaPRE::MySQL::getHandle] ${AI_Sqldid1} -flatlist];
   lassign  ${AI_Sqldid2} AI_SqlidOK;
   set AI_LOGOK      [format "Tcl exec \[::${::bonaPRE::VAR(release)}::${AI_Sta}\]: L'exécution de la requête %s pour %s (id: %s)" ${AI_SqldUP} ${AI_Rls} ${AI_SqlidOK}]
   set AI_MSGOK      [format "%s - %s fichier %s mb (id: %s)" ${AI_Rls} ${AI_File} ${AI_Size} ${AI_SqlidOK}]

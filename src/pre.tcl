@@ -25,7 +25,7 @@ proc ::bonaPRE::pre { nick uhost hand chan arg } {
   append P_Sql      "FROM `${::bonaPRE::mysql_(dbmain)}` ";
   append P_Sql      "WHERE `${::bonaPRE::db_(rlsname)}` LIKE '${P_Rlsname}%' ";
   append P_Sql      "ORDER BY ${::bonaPRE::db_(datetime)} DESC LIMIT 1;";
-  set P_Sqld        [::mysql::sel ${::bonaPRE::mysql_(handle)} ${P_Sql} -flatlist];
+  set P_Sqld        [::mysql::sel [::bonaPRE::MySQL::getHandle] ${P_Sql} -flatlist];
   if { ${P_Sqld} != "" } {
     # (lassign) La Liste SQL separer en variables https://www.tcl.tk/man/tcl8.7/TclCmd/lassign.html
     lassign ${P_Sqld} P_Id P_Rls P_Section P_Datetime P_Files P_Size;
@@ -55,7 +55,7 @@ proc ::bonaPRE::preurl { args } {
   set PU_Sql        "SELECT `${::bonaPRE::dburl_(rlsname)}`, `${::bonaPRE::dburl_(addurl)}`, `${::bonaPRE::dburl_(imdb)}`, `${::bonaPRE::dburl_(tvmaze)}`";
   append PU_Sql     "FROM `${::bonaPRE::mysql_(dburl)}` ";
   append PU_Sql     "WHERE `${::bonaPRE::dburl_(rlsname)}` LIKE '${PU_Rlsname}%' ;";
-  set PU_Sqld       [::mysql::sel ${::bonaPRE::mysql_(handle)} ${PU_Sql} -flatlist];
+  set PU_Sqld       [::mysql::sel [::bonaPRE::MySQL::getHandle] ${PU_Sql} -flatlist];
   if { ${PU_Sqld} != "" } {
     # (lassign) La Liste SQL separer en variables https://www.tcl.tk/man/tcl8.7/TclCmd/lassign.html
     lassign ${PU_Sqld} PU_Rls PU_Addurl PU_Imdb PU_Tvmaze;

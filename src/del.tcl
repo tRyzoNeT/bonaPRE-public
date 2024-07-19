@@ -143,8 +143,8 @@ proc ::bonaPRE::DelExec { args } {
       $delReason                                                                \
       $delNet];
 
-  set insertQueryStatus         [::mysql::exec ${::bonaPRE::mysql_(handle)} ${insertQuery}];
-  set insertQueryID             [::mysql::insertid ${::bonaPRE::mysql_(handle)}]
+  set insertQueryStatus         [::mysql::exec [::bonaPRE::MySQL::getHandle] ${insertQuery}];
+  set insertQueryID             [::mysql::insertid [::bonaPRE::MySQL::getHandle]]
   if {  ${insertQueryStatus} != "1" } {
     set logError                [format "La release %s n'a pas été ajoutée (WEiRD?!?) par %s/%s" \
                                         ${releaseName}                          \
