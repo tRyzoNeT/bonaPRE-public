@@ -11,9 +11,9 @@ namespace eval ::bonaPRE::MySQL {}
 proc ::bonaPRE::MySQL::handleError {mysqlError} {
   # Vérifie si l'erreur contient "Access denied"
   if { [string match "*Access*denied*" $mysqlError] } {
-    return "Erreur Tcl [::${::bonaPRE::VAR(release)}::MySQL] : vérifier les informations MySQL."
+    return "Erreur Tcl \[::${::bonaPRE::VAR(release)}::MySQL\] : vérifier les informations MySQL."
   } else {
-    return "Erreur Tcl [::${::bonaPRE::VAR(release)}::MySQL] : erreur SQL fatale [::mysql::connect] : $mysqlError"
+    return "Erreur Tcl \[::${::bonaPRE::VAR(release)}::MySQL\] : erreur SQL fatale \[::mysql::connect\] : $mysqlError"
   }
 }
 
@@ -42,11 +42,11 @@ proc ::bonaPRE::MySQL::connect {} {
 proc ::bonaPRE::MySQL::KeepAlive {} {
   if { [::bonaPRE::MySQL::isActive] } {
     # Si la connexion est active, affiche un message de confirmation.
-    putlog "Tcl exec [::${::bonaPRE::VAR(release)}::MySQL] : Connexion active. 'KeepAlive' [${::bonaPRE::mysql_(handle)}]"
+    putlog "Tcl exec \[::${::bonaPRE::VAR(release)}::MySQL\] : Connexion active. 'KeepAlive' \[${::bonaPRE::mysql_(handle)}\]"
   } else {
     set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::getHandle]
     # Si la connexion est inactive, affiche un message d'erreur.
-    putlog "Tcl exec [::${::bonaPRE::VAR(release)}::MySQL] : Connexion inactive. 'KeepAlive' [${::bonaPRE::mysql_(handle)}], reconnexion.."
+    putlog "Tcl exec \[::${::bonaPRE::VAR(release)}::MySQL\] : Connexion inactive. 'KeepAlive' \[${::bonaPRE::mysql_(handle)}\], reconnexion.."
   }
   utimer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL::KeepAlive] 1 SQLKeepAlive
   return -ok $::bonaPRE::mysql_(handle)
