@@ -64,10 +64,8 @@ proc ::bonaPRE::MySQL::isActive {} {
 
 # Renvoie le handle de la connexion à MySQL.
 proc ::bonaPRE::MySQL::getHandle {} {
-  if {[info exists ::bonaPRE::mysql_(handle)]} {
-    if {[::bonaPRE::MySQL::isActive]} { 
+  if {[::bonaPRE::MySQL::isActive]} { 
       return ${::bonaPRE::mysql_(handle)};
-    }
   }
   if {[catch { set ::bonaPRE::mysql_(handle) [::bonaPRE::MySQL::connect] } mysqlError]} {
     putlog "Erreur de connexion MySQL : $mysqlError"; return 0;
