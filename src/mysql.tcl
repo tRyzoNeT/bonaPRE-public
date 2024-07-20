@@ -40,7 +40,7 @@ proc ::bonaPRE::MySQL::connect {} {
 
 # Assure que la connexion à MySQL reste active en utilisant un utimer pour le refresh.
 proc ::bonaPRE::MySQL::KeepAlive {} {
-  if { [::bonaPRE::MySQL::getHandle] } {
+  if { [::bonaPRE::MySQL::isActive] } {
     # Si la connexion est active, affiche un message de confirmation.
     putlog "Tcl exec [::${::bonaPRE::VAR(release)}::MySQL] : Connexion active. 'KeepAlive' [${::bonaPRE::mysql_(handle)}]"
   } else {
