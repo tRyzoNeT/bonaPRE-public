@@ -1,6 +1,6 @@
 if { [catch { package require bonaPRE-SQL 1.0 }] } { 
-  set AE_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant oldnuke.tcl"]
-  return -code error ${AE_LOGERR};
+  set debugMessageOK   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant oldnuke.tcl"]
+  return -code error ${debugMessageOK};
 }
 
 bind pub -|- !oldmodnuke ::bonaPRE::oldmodnuke
@@ -8,7 +8,7 @@ bind pub -|- !oldmodunnuke ::bonaPRE::oldmodunnuke
 bind pub -|- !oldnuke ::bonaPRE::oldnuke
 bind pub -|- !oldunnuke ::bonaPRE::oldunnuke
 
-proc ::bonaPRE::oldmodnuke { nick uhost hand chan arg } {
+proc ::bonaPRE::oldmodnuke { nickSource hostSource hand channelSource arg } {
   set OMN_Name      [lindex ${arg} 0]
   set OMN_Grp       [lindex [split ${OMN_Name} -] end]
   set OMN_Raison    [lindex ${arg} 1]
@@ -16,12 +16,12 @@ proc ::bonaPRE::oldmodnuke { nick uhost hand chan arg } {
   set OMN_Date      [lindex ${arg} 3]
   set OMN_Time      [lindex ${arg} 4]
   set OMN_Echo      [lindex ${arg} 5]
-  set OMN_Chan      ${chan}
-  ::bonaPRE::oldnukexec ${nick} ${OMN_Chan} ${OMN_Date} ${OMN_Time} ${OMN_Name} ${OMN_Grp} ${OMN_Raison} ${OMN_Nukenet} MODNUKE ${OMN_Echo}
+  set OMN_Chan      ${channelSource}
+  ::bonaPRE::oldnukexec ${nickSource} ${OMN_Chan} ${OMN_Date} ${OMN_Time} ${OMN_Name} ${OMN_Grp} ${OMN_Raison} ${OMN_Nukenet} MODNUKE ${OMN_Echo}
   return false;
 }
 
-proc ::bonaPRE::oldmodunnuke { nick uhost hand chan arg } {
+proc ::bonaPRE::oldmodunnuke { nickSource hostSource hand channelSource arg } {
   set OMU_Name      [lindex ${arg} 0]
   set OMU_Grp       [lindex [split ${OMU_Name} -] end]
   set OMU_Raison    [lindex ${arg} 1]
@@ -29,12 +29,12 @@ proc ::bonaPRE::oldmodunnuke { nick uhost hand chan arg } {
   set OMU_Date      [lindex ${arg} 3]
   set OMU_Time      [lindex ${arg} 4]
   set OMU_Echo      [lindex ${arg} 5]
-  set OMU_Chan      ${chan}
-  ::bonaPRE::oldnukexec ${nick} ${OMU_Chan} ${OMU_Date} ${OMU_Time} ${OMU_Name} ${OMU_Grp} ${OMU_Raison} ${OMU_Nukenet} MODUNNUKE ${OMU_Echo}
+  set OMU_Chan      ${channelSource}
+  ::bonaPRE::oldnukexec ${nickSource} ${OMU_Chan} ${OMU_Date} ${OMU_Time} ${OMU_Name} ${OMU_Grp} ${OMU_Raison} ${OMU_Nukenet} MODUNNUKE ${OMU_Echo}
   return false;
 }
 
-proc ::bonaPRE::oldnuke { nick uhost hand chan arg } {
+proc ::bonaPRE::oldnuke { nickSource hostSource hand channelSource arg } {
   set ON_Name       [lindex ${arg} 0]
   set ON_Grp        [lindex [split ${ON_Name} -] end]
   set ON_Raison     [lindex ${arg} 1]
@@ -42,12 +42,12 @@ proc ::bonaPRE::oldnuke { nick uhost hand chan arg } {
   set ON_Date       [lindex ${arg} 3]
   set ON_Time       [lindex ${arg} 4]
   set ON_Echo       [lindex ${arg} 5]
-  set ON_Chan       ${chan}
-  ::bonaPRE::oldnukexec ${nick} ${ON_Chan} ${ON_Date} ${ON_Time} ${ON_Name} ${ON_Grp} ${ON_Raison} ${ON_Nukenet} NUKE ${ON_Echo}
+  set ON_Chan       ${channelSource}
+  ::bonaPRE::oldnukexec ${nickSource} ${ON_Chan} ${ON_Date} ${ON_Time} ${ON_Name} ${ON_Grp} ${ON_Raison} ${ON_Nukenet} NUKE ${ON_Echo}
   return false;
 }
 
-proc ::bonaPRE::oldundelpre { nick uhost hand chan arg } {
+proc ::bonaPRE::oldundelpre { nickSource hostSource hand channelSource arg } {
   set OUD_Name      [lindex ${arg} 0]
   set OUD_Grp       [lindex [split ${OUD_Name} -] end]
   set OUD_Raison    [lindex ${arg} 1]
@@ -55,12 +55,12 @@ proc ::bonaPRE::oldundelpre { nick uhost hand chan arg } {
   set OUD_Date      [lindex ${arg} 3]
   set OUD_Time      [lindex ${arg} 4]
   set OUD_Echo      [lindex ${arg} 5]
-  set OUD_Chan      ${chan}
-  ::bonaPRE::oldnukexec ${nick} ${OUD_Chan} ${OUD_Date} ${OUD_Time} ${OUD_Name} ${OUD_Grp} ${OUD_Raison} ${OUD_Nukenet} UNDELPRE ${OUD_Echo}
+  set OUD_Chan      ${channelSource}
+  ::bonaPRE::oldnukexec ${nickSource} ${OUD_Chan} ${OUD_Date} ${OUD_Time} ${OUD_Name} ${OUD_Grp} ${OUD_Raison} ${OUD_Nukenet} UNDELPRE ${OUD_Echo}
   return false;
 }
 
-proc ::bonaPRE::oldunnuke { nick uhost hand chan arg } {
+proc ::bonaPRE::oldunnuke { nickSource hostSource hand channelSource arg } {
   set OUN_Name      [lindex ${arg} 0]
   set OUN_Grp       [lindex [split ${OUN_Name} -] end]
   set OUN_Raison    [lindex ${arg} 1]
@@ -68,8 +68,8 @@ proc ::bonaPRE::oldunnuke { nick uhost hand chan arg } {
   set OUN_Date      [lindex ${arg} 3]
   set OUN_Time      [lindex ${arg} 4]
   set OUN_Echo      [lindex ${arg} 5]
-  set OUN_Chan      ${chan}
-  ::bonaPRE::oldnukexec ${nick} ${OUN_Chan} ${OUN_Date} ${OUN_Time} ${OUN_Name} ${OUN_Grp} ${OUN_Raison} ${OUN_Nukenet} UNNUKE ${OUN_Echo}
+  set OUN_Chan      ${channelSource}
+  ::bonaPRE::oldnukexec ${nickSource} ${OUN_Chan} ${OUN_Date} ${OUN_Time} ${OUN_Name} ${OUN_Grp} ${OUN_Raison} ${OUN_Nukenet} UNNUKE ${OUN_Echo}
   return false;
 }
 
@@ -97,10 +97,10 @@ proc ::bonaPRE::oldnukexec { args } {
     return -code error ${OEX_LOGERR};
   }
   set OEX_Sql       "INSERT INTO ${::bonaPRE::mysql_(dbnuke)} "
-  append OEX_Sql    "( `${::bonaPRE::nuke_(rlsname)}`, `${::bonaPRE::nuke_(group)}`, `${::bonaPRE::nuke_(datetime)}`, `${::bonaPRE::nuke_(nuke)}`, `${::bonaPRE::nuke_(raison)}`, `${::bonaPRE::nuke_(nukenet)}` ) ";
+  append OEX_Sql    "( `${::bonaPRE::nuke_(releaseName)}`, `${::bonaPRE::nuke_(group)}`, `${::bonaPRE::nuke_(datetime)}`, `${::bonaPRE::nuke_(nuke)}`, `${::bonaPRE::nuke_(raison)}`, `${::bonaPRE::nuke_(nukenet)}` ) ";
   append OEX_Sql    "VALUES ( '${OEX_Rls}', '${OEX_Grp}', '${OEX_Date} ${OEX_Time}', '${OEX_Sta}', '${OEX_Ra}', '${OEX_Nnet}' );";
-  set OEX_Sqld      [::mysql::exec [::bonaPRE::MySQL::getHandle] ${OEX_Sql}];
-  set OEX_Sqlid     [::mysql::insertid [::bonaPRE::MySQL::getHandle]]
+  set OEX_Sqld      [::bonaPRE::MySQL::exec ${OEX_Sql}];
+  set OEX_Sqlid     [::bonaPRE::MySQL::insertid]
   if {  ${OEX_Sqld} == "1" } {
     if { ${OEX_Ech} == "0" } {
       set OEX_LOGOK [format "Tcl exec \[::${::bonaPRE::VAR(release)}::NUKE\]: L'exécution de la requête %s pour %s (id: %s)" ${OEX_Sqld} ${OEX_Rls} ${OEX_Sqlid}]

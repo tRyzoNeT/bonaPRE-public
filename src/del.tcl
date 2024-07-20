@@ -14,48 +14,46 @@ bind pub -|- !moddelpre         ::bonaPRE::ModDelPre
 bind pub -|- !undelpre          ::bonaPRE::UndelPre
 
 # Procédure pour gérer la commande !delpre
-proc ::bonaPRE::DelPre { nick uhost hand chan arg } {
+proc ::bonaPRE::DelPre { nickSource hostSource hand channelSource arg } {
   set currentDateTime           [clock format [clock seconds] -format "%Y-%m-%d %H:%M:%S"] 
   set releaseName               [lindex ${arg} 0]
   set groupName                 [lindex [split ${releaseName} -] end]
   set delReason                 [lindex ${arg} 1]
   set delNet                    [lindex ${arg} 2]
   set needEcho                  [lindex ${arg} 3]
-  set channelSource             ${chan}
 
   # Appel de la procédure d'exécution de suppression
-  return [::bonaPRE::delexec ${nick} ${channelSource} ${currentDateTime} ${releaseName} ${groupName} ${delReason} ${delNet} DELPRE ${needEcho}]
+  return [::bonaPRE::delexec ${nickSource} ${channelSource} ${currentDateTime} ${releaseName} ${groupName} ${delReason} ${delNet} DELPRE ${needEcho}]
 }
 
 # Procédure pour gérer la commande !moddelpre
-proc ::bonaPRE::ModDelPre { nick uhost hand chan arg } {
+proc ::bonaPRE::ModDelPre { nickSource hostSource hand channelSource arg } {
   set currentDateTime           [clock format [clock seconds] -format "%Y-%m-%d %H:%M:%S"] 
   set releaseName               [lindex ${arg} 0]
   set groupName                 [lindex [split ${releaseName} -] end]
   set delReason                 [lindex ${arg} 1]
   set delNet                    [lindex ${arg} 2]
   set needEcho                  [lindex ${arg} 3]
-  set channelSource              ${chan}
+
   # Appel de la procédure d'exécution de modification de suppression
-  return [::bonaPRE::delexec ${nick} ${channelSource} ${currentDateTime} ${releaseName} ${groupName} ${delReason} ${delNet} MODDELPRE ${needEcho}]
+  return [::bonaPRE::delexec ${nickSource} ${channelSource} ${currentDateTime} ${releaseName} ${groupName} ${delReason} ${delNet} MODDELPRE ${needEcho}]
 }
 
 # Procédure pour gérer la commande !undelpre
-proc ::bonaPRE::UndelPre { nick uhost hand chan arg } {
+proc ::bonaPRE::UndelPre { nickSource hostSource hand channelSource arg } {
   set currentDateTime           [clock format [clock seconds] -format "%Y-%m-%d %H:%M:%S"] 
   set releaseName               [lindex ${arg} 0]
   set groupName                 [lindex [split ${releaseName} -] end]
   set delReason                 [lindex ${arg} 1]
   set delNet                    [lindex ${arg} 2]
   set needEcho                  [lindex ${arg} 3]
-  set channelSource             ${chan}
 
   # Appel de la procédure d'exécution d'annulation de suppression
-  return [::bonaPRE::delexec ${nick} ${channelSource} ${currentDateTime} ${releaseName} ${groupName} ${delReason} ${delNet} UNDELPRE ${needEcho}]
+  return [::bonaPRE::delexec ${nickSource} ${channelSource} ${currentDateTime} ${releaseName} ${groupName} ${delReason} ${delNet} UNDELPRE ${needEcho}]
 }
 
 # Procédure pour gérer les anciennes commandes !olddelpre
-proc ::bonaPRE::OldDelPre { nick uhost hand chan arg } {
+proc ::bonaPRE::OldDelPre { nickSource hostSource hand channelSource arg } {
   set releaseName               [lindex ${arg} 0]
   set groupName                 [lindex [split ${releaseName} -] end]
   set delReason                 [lindex ${arg} 1]
@@ -63,14 +61,13 @@ proc ::bonaPRE::OldDelPre { nick uhost hand chan arg } {
   set oldDate                   [lindex ${arg} 3]
   set oldDateTimeFormat         [lindex ${arg} 4]
   set needEcho                  [lindex ${arg} 5]
-  set channelSource             ${chan}
 
   # Appel de la procédure d'exécution de suppression ancienne
-  return [::bonaPRE::delexec ${nick} ${channelSource} ${oldDate} ${oldDateTimeFormat} ${releaseName} ${groupName} ${delReason} ${delNet} DELPRE ${needEcho}]
+  return [::bonaPRE::delexec ${nickSource} ${channelSource} ${oldDate} ${oldDateTimeFormat} ${releaseName} ${groupName} ${delReason} ${delNet} DELPRE ${needEcho}]
 }
 
 # Procédure pour gérer les anciennes commandes !oldmoddelpre
-proc ::bonaPRE::OldModDelPre { nick uhost hand chan arg } {
+proc ::bonaPRE::OldModDelPre { nickSource hostSource hand channelSource arg } {
   set releaseName               [lindex ${arg} 0]
   set groupName                 [lindex [split ${releaseName} -] end]
   set delReason                 [lindex ${arg} 1]
@@ -78,10 +75,9 @@ proc ::bonaPRE::OldModDelPre { nick uhost hand chan arg } {
   set oldModDate                [lindex ${arg} 3]
   set oldModDateTimeFormat      [lindex ${arg} 4]
   set needEcho                  [lindex ${arg} 5]
-  set channelSource             ${chan}
 
   # Appel de la procédure d'exécution de modification de suppression ancienne
-  return [::bonaPRE::delexec ${nick} ${channelSource} ${oldModDate} ${oldModDateTimeFormat} ${releaseName} ${groupName} ${delReason} ${delNet} MODDELPRE ${needEcho}]
+  return [::bonaPRE::delexec ${nickSource} ${channelSource} ${oldModDate} ${oldModDateTimeFormat} ${releaseName} ${groupName} ${delReason} ${delNet} MODDELPRE ${needEcho}]
 }
 
 # Procédure principale d'exécution des suppressions et modifications
@@ -93,18 +89,18 @@ proc ::bonaPRE::DelExec { args } {
   set groupName                 [lindex ${args} 4]
   set delReason                 [lindex ${args} 5]
   set delNet                    [lindex ${args} 6]
-  set delStatus                 [lindex ${args} 7]
+  set commandName               [lindex ${args} 7]
   set needEcho                  [lindex ${args} 8]
 
   # Vérification des permissions de canal
   if { ![channel get ${channelSource} bpdel] } {
     set logError                [format "L'utilisateur %s a tenté un !%s sur %s, mais le salon n'a pas les *flags* nécessaires." \
                                         ${nickSource}                           \
-                                        ${delStatus}                            \
+                                        ${commandName}                            \
                                         ${channelSource}]
     set logMessage              [format "%s a tenté un !%s, mais le salon n'a pas les *flags* nécessaires." \
                                         ${nickSource}                           \
-                                        ${delStatus}]
+                                        ${commandName}]
     putquick "privmsg ${channelSource} ${logMessage}"
     return -code error ${logError};
   }
@@ -113,9 +109,9 @@ proc ::bonaPRE::DelExec { args } {
   if { ${delNet} == "" } {
     set logError                [format "Syntax * %s a tenté un !%s sur %s, mais manque d'information..." \
                                         ${nickSource}                           \
-                                        ${delStatus}                            \
+                                        ${commandName}                            \
                                         ${channelSource}]
-    set logMessage              [format "Syntax * !%s <nom.de.la.release> <raison> <nukenet>" ${delStatus}]
+    set logMessage              [format "Syntax * !%s <nom.de.la.release> <raison> <nukenet>" ${commandName}]
     putquick "privmsg ${channelSource} ${logMessage}"
     return -code error ${logError};
   }
@@ -136,15 +132,15 @@ proc ::bonaPRE::DelExec { args } {
     VALUES (
       '%s', '%s', '%s', '%s', '%s', '%s'
     );}                                                                         \
-      $releaseName                                                              \
-      $groupName                                                                \
-      $dateTimeSource                                                           \
-      $delStatus                                                                \
-      $delReason                                                                \
-      $delNet];
+      [::mysql::escape [::bonaPRE::MySQL::getHandle] $releaseName]                                                      \
+      [::mysql::escape [::bonaPRE::MySQL::getHandle] $groupName]                                                        \
+      [::mysql::escape [::bonaPRE::MySQL::getHandle] $dateTimeSource]                                                   \
+      [::mysql::escape [::bonaPRE::MySQL::getHandle] $commandName]                                                        \
+      [::mysql::escape [::bonaPRE::MySQL::getHandle] $delReason]                                                        \
+      [::mysql::escape [::bonaPRE::MySQL::getHandle] $delNet]];
 
-  set insertQueryStatus         [::mysql::exec [::bonaPRE::MySQL::getHandle] ${insertQuery}];
-  set insertQueryID             [::mysql::insertid [::bonaPRE::MySQL::getHandle]]
+  set insertQueryStatus         [::bonaPRE::MySQL::exec ${insertQuery}];
+  set insertQueryID             [::bonaPRE::MySQL::insertid]
   if {  ${insertQueryStatus} != "1" } {
     set logError                [format "La release %s n'a pas été ajoutée (WEiRD?!?) par %s/%s" \
                                         ${releaseName}                          \
@@ -161,7 +157,7 @@ proc ::bonaPRE::DelExec { args } {
                                     ${insertQueryID}]
 
   set logMessageOK              [format "(%s) %s - %s / %s (%s)"                \
-                                        ${delStatus}                            \
+                                        ${commandName}                          \
                                         ${releaseName}                          \
                                         ${delReason}                            \
                                         ${delNet}                               \

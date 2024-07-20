@@ -1,29 +1,29 @@
 
 if { [catch { package require bonaPRE-SQL 1.1 }] } {
-  set AE_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant pre.tcl"]
-  return -code error ${AE_LOGERR};
+  set debugMessageOK   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant pre.tcl"]
+  return -code error ${debugMessageOK};
 }
 
 
 bind pub -|- !pre ::bonaPRE::pre
 
-proc ::bonaPRE::pre { nick uhost hand chan arg } {
-  set P_Rlsname     [lindex ${arg} 0]
-  if { ![channel get ${chan} bpsearch] } {
-    set P_LOGERR    [format "L'utilisateur %s à tenté un !pre sur %s, mais le salon n'a pas les *flags* necéssaire." ${nick} ${chan}]
-    set P_MSGERR    [format "%s à tenté un !pre, mais le salon n'a pas les *flags* necéssaire." ${nick}]
-    putquick "privmsg ${chan} ${P_MSGERR}"
+proc ::bonaPRE::pre { nickSource hostSource hand channelSource arg } {
+  set P_releaseName     [lindex ${arg} 0]
+  if { ![channel get ${channelSource} bpsearch] } {
+    set P_LOGERR    [format "L'utilisateur %s à tenté un !pre sur %s, mais le salon n'a pas les *flags* necéssaire." ${nickSource} ${channelSource}]
+    set P_MSGERR    [format "%s à tenté un !pre, mais le salon n'a pas les *flags* necéssaire." ${nickSource}]
+    putquick "privmsg ${channelSource} ${P_MSGERR}"
     return -code error ${P_LOGERR};
   }
-  if { ${P_Rlsname} == "" } {
-    set P_LOGERR    [format "Syntax * %s à tenté un !pre sur %s, mais manque d'information..." ${nick} ${chan}]
+  if { ${P_releaseName} == "" } {
+    set P_LOGERR    [format "Syntax * %s à tenté un !pre sur %s, mais manque d'information..." ${nickSource} ${channelSource}]
     set P_MSGERR    [format "Syntax * !pre <nom.de.la.release>"]
-    putquick "privmsg ${chan} ${P_MSGERR}"
+    putquick "privmsg ${channelSource} ${P_MSGERR}"
     return -code error ${P_LOGERR};
   }
-  set P_Sql         "SELECT `${::bonaPRE::db_(id)}`, `${::bonaPRE::db_(rlsname)}`, `${::bonaPRE::db_(section)}`, `${::bonaPRE::db_(datetime)}`, `${::bonaPRE::db_(files)}`, `${::bonaPRE::db_(size)}`";
+  set P_Sql         "SELECT `${::bonaPRE::db_(id)}`, `${::bonaPRE::db_(releaseName)}`, `${::bonaPRE::db_(section)}`, `${::bonaPRE::db_(datetime)}`, `${::bonaPRE::db_(files)}`, `${::bonaPRE::db_(size)}`";
   append P_Sql      "FROM `${::bonaPRE::mysql_(dbmain)}` ";
-  append P_Sql      "WHERE `${::bonaPRE::db_(rlsname)}` LIKE '${P_Rlsname}%' ";
+  append P_Sql      "WHERE `${::bonaPRE::db_(releaseName)}` LIKE '${P_releaseName}%' ";
   append P_Sql      "ORDER BY ${::bonaPRE::db_(datetime)} DESC LIMIT 1;";
   set P_Sqld        [::mysql::sel [::bonaPRE::MySQL::getHandle] ${P_Sql} -flatlist];
   if { ${P_Sqld} != "" } {
@@ -34,27 +34,27 @@ proc ::bonaPRE::pre { nick uhost hand chan arg } {
     set P_AGO       [duration [expr {${P_CTIME} - ${P_UTIME}}]]
     set P_MSGOK1    [format "\002\0033(\0037PRE\0033)\002\0037 ${P_Rls} \0033-\00315\002 ${P_Section} \002\0033(\0037id:\0038 ${P_Id}\0033)"]
     set P_MSGOK2    [format "\002\0033(\0037DateTiME\0033)\002\00310 ${P_Datetime} - ${P_CTIME} - ${P_AGO}"]
-    putquick "privmsg ${chan} ${P_MSGOK1}"
-    putquick "privmsg ${chan} ${P_MSGOK2}"
+    putquick "privmsg ${channelSource} ${P_MSGOK1}"
+    putquick "privmsg ${channelSource} ${P_MSGOK2}"
     if { ${P_Size} == "" } { } else { 
       set P_MSGOK3  [format "\002\0033(\0037iNFO\0033)\002\0038 ${P_Files} \00310fichier \0033|\00311 ${P_Size} \0037mb "]
-      putquick "privmsg ${chan} ${P_MSGOK3}"
+      putquick "privmsg ${channelSource} ${P_MSGOK3}"
     }
-    ::bonaPRE::preurl ${P_Rls} ${chan}
+    ::bonaPRE::preurl ${P_Rls} ${channelSource}
     return false;
   } else {
-      set P_MSGERR  [format "\002\0033(\0037PRE\0033)\002\0037 ${P_Rlsname} \00315inexistant dans la database."]
-      putquick "privmsg ${chan} ${P_MSGERR}"
+      set P_MSGERR  [format "\002\0033(\0037PRE\0033)\002\0037 ${P_releaseName} \00315inexistant dans la database."]
+      putquick "privmsg ${channelSource} ${P_MSGERR}"
     return false;
   }
 }
 
 proc ::bonaPRE::preurl { args } {
-  set PU_Rlsname    [lindex ${args} 0]
+  set PU_releaseName    [lindex ${args} 0]
   set PU_Chan       [lindex ${args} 1]
-  set PU_Sql        "SELECT `${::bonaPRE::dburl_(rlsname)}`, `${::bonaPRE::dburl_(addurl)}`, `${::bonaPRE::dburl_(imdb)}`, `${::bonaPRE::dburl_(tvmaze)}`";
+  set PU_Sql        "SELECT `${::bonaPRE::dburl_(releaseName)}`, `${::bonaPRE::dburl_(addurl)}`, `${::bonaPRE::dburl_(imdb)}`, `${::bonaPRE::dburl_(tvmaze)}`";
   append PU_Sql     "FROM `${::bonaPRE::mysql_(dburl)}` ";
-  append PU_Sql     "WHERE `${::bonaPRE::dburl_(rlsname)}` LIKE '${PU_Rlsname}%' ;";
+  append PU_Sql     "WHERE `${::bonaPRE::dburl_(releaseName)}` LIKE '${PU_releaseName}%' ;";
   set PU_Sqld       [::mysql::sel [::bonaPRE::MySQL::getHandle] ${PU_Sql} -flatlist];
   if { ${PU_Sqld} != "" } {
     # (lassign) La Liste SQL separer en variables https://www.tcl.tk/man/tcl8.7/TclCmd/lassign.html

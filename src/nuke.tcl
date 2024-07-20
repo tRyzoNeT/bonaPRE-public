@@ -1,7 +1,7 @@
 
 if { [catch { package require bonaPRE-SQL 1.1 }] } { 
-  set AE_LOGERR   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant nuke.tcl"]
-  return -code error ${AE_LOGERR};
+  set debugMessageOK   [format "${::bonaPRE::VAR(release)} modTCL * le fichier mysql.tcl doit être charger avant nuke.tcl"]
+  return -code error ${debugMessageOK};
 }
 
 bind pub -|- !nuke ::bonaPRE::nuke
@@ -9,7 +9,7 @@ bind pub -|- !modnuke ::bonaPRE::modnuke
 bind pub -|- !modunnuke ::bonaPRE::modunnuke
 bind pub -|- !unnuke ::bonaPRE::unnuke
 
-proc ::bonaPRE::nuke { nick uhost hand chan arg } {
+proc ::bonaPRE::nuke { nickSource hostSource hand channelSource arg } {
   set N_Time        "%Y-%m-%d %H:%M:%S"
   set N_DateTime    [clock format [clock seconds] -format $N_Time] 
   set N_Name        [lindex ${arg} 0]
@@ -17,12 +17,12 @@ proc ::bonaPRE::nuke { nick uhost hand chan arg } {
   set N_Raison      [lindex ${arg} 1]
   set N_Nukenet     [lindex ${arg} 2]
   set N_Echo        [lindex ${arg} 3]
-  set N_Chan        ${chan}
-  ::bonaPRE::nukexec ${nick} ${N_Chan} ${N_DateTime} ${N_Name} ${N_Grp} ${N_Raison} ${N_Nukenet} NUKE ${N_Echo}
+  set N_Chan        ${channelSource}
+  ::bonaPRE::nukexec ${nickSource} ${N_Chan} ${N_DateTime} ${N_Name} ${N_Grp} ${N_Raison} ${N_Nukenet} NUKE ${N_Echo}
   return false;
 }
 
-proc ::bonaPRE::modnuke { nick uhost hand chan arg } {
+proc ::bonaPRE::modnuke { nickSource hostSource hand channelSource arg } {
   set MN_Time       "%Y-%m-%d %H:%M:%S"
   set MN_DateTime   [clock format [clock seconds] -format $MN_Time] 
   set MN_Name       [lindex ${arg} 0]
@@ -30,12 +30,12 @@ proc ::bonaPRE::modnuke { nick uhost hand chan arg } {
   set MN_Raison     [lindex ${arg} 1]
   set MN_Nukenet    [lindex ${arg} 2]
   set MN_Echo       [lindex ${arg} 3]
-  set MN_Chan       ${chan}
-  ::bonaPRE::nukexec ${nick} ${MN_Chan} ${MN_DateTime} ${MN_Name} ${MN_Grp} ${MN_Raison} ${MN_Nukenet} MODNUKE ${MN_Echo}
+  set MN_Chan       ${channelSource}
+  ::bonaPRE::nukexec ${nickSource} ${MN_Chan} ${MN_DateTime} ${MN_Name} ${MN_Grp} ${MN_Raison} ${MN_Nukenet} MODNUKE ${MN_Echo}
   return false;
 }
 
-proc ::bonaPRE::modunnuke { nick uhost hand chan arg } {
+proc ::bonaPRE::modunnuke { nickSource hostSource hand channelSource arg } {
   set MU_Time       "%Y-%m-%d %H:%M:%S"
   set MU_DateTime   [clock format [clock seconds] -format $MU_Time] 
   set MU_Name       [lindex ${arg} 0]
@@ -43,12 +43,12 @@ proc ::bonaPRE::modunnuke { nick uhost hand chan arg } {
   set MU_Raison     [lindex ${arg} 1]
   set MU_Nukenet    [lindex ${arg} 2]
   set MU_Echo       [lindex ${arg} 3]
-  set MU_Chan       ${chan}
-  ::bonaPRE::nukexec ${nick} ${MU_Chan} ${MU_DateTime} ${MU_Name} ${MU_Grp} ${MU_Raison} ${MU_Nukenet} MODUNNUKE ${MU_Echo}
+  set MU_Chan       ${channelSource}
+  ::bonaPRE::nukexec ${nickSource} ${MU_Chan} ${MU_DateTime} ${MU_Name} ${MU_Grp} ${MU_Raison} ${MU_Nukenet} MODUNNUKE ${MU_Echo}
   return false;
 }
 
-proc ::bonaPRE::unnuke { nick uhost hand chan arg } {
+proc ::bonaPRE::unnuke { nickSource hostSource hand channelSource arg } {
   set UN_Time       "%Y-%m-%d %H:%M:%S"
   set UN_DateTime   [clock format [clock seconds] -format $UN_Time] 
   set UN_Name       [lindex ${arg} 0]
@@ -56,8 +56,8 @@ proc ::bonaPRE::unnuke { nick uhost hand chan arg } {
   set UN_Raison     [lindex ${arg} 1]
   set UN_Nukenet    [lindex ${arg} 2]
   set UN_Echo       [lindex ${arg} 3]
-  set UN_Chan       ${chan}
-  ::bonaPRE::nukexec ${nick} ${UN_Chan} ${UN_DateTime} ${UN_Name} ${UN_Grp} ${UN_Raison} ${UN_Nukenet} UNNUKE ${UN_Echo}
+  set UN_Chan       ${channelSource}
+  ::bonaPRE::nukexec ${nickSource} ${UN_Chan} ${UN_DateTime} ${UN_Name} ${UN_Grp} ${UN_Raison} ${UN_Nukenet} UNNUKE ${UN_Echo}
   return false;
 }
 
@@ -84,10 +84,10 @@ proc ::bonaPRE::nukexec { args } {
     return -code error ${EC_LOGERR};
   }
   set EC_Sql        "INSERT INTO ${::bonaPRE::mysql_(dbnuke)} "
-  append EC_Sql     "( `${::bonaPRE::nuke_(rlsname)}`, `${::bonaPRE::nuke_(group)}`, `${::bonaPRE::nuke_(datetime)}`, `${::bonaPRE::nuke_(nuke)}`, `${::bonaPRE::nuke_(raison)}`, `${::bonaPRE::nuke_(nukenet)}` ) ";
+  append EC_Sql     "( `${::bonaPRE::nuke_(releaseName)}`, `${::bonaPRE::nuke_(group)}`, `${::bonaPRE::nuke_(datetime)}`, `${::bonaPRE::nuke_(nuke)}`, `${::bonaPRE::nuke_(raison)}`, `${::bonaPRE::nuke_(nukenet)}` ) ";
   append EC_Sql     "VALUES ( '${EC_Rls}', '${EC_Grp}', '${EC_Time}', '${EC_Sta}', '${EC_Ra}', '${EC_Nnet}' );";
-  set EC_Sqld       [::mysql::exec [::bonaPRE::MySQL::getHandle] ${EC_Sql}];
-  set EC_Sqlid      [::mysql::insertid [::bonaPRE::MySQL::getHandle]]
+  set EC_Sqld       [::bonaPRE::MySQL::exec ${EC_Sql}];
+  set EC_Sqlid      [::bonaPRE::MySQL::insertid]
   if {  ${EC_Sqld} == "1" } {
     if { ${EC_Ech} == "0" } {
       set EC_LOGOK  [format "Tcl exec \[::${::bonaPRE::VAR(release)}::NUKE\]: L'exécution de la requête %s pour %s (id: %s)" ${EC_Sqld} ${EC_Rls} ${EC_Sqlid}]

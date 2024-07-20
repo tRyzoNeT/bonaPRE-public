@@ -40,9 +40,8 @@ namespace eval ::bonaPRE {
 
   # Configuration des champs de la base de données
   array set db_     [list                                                       \
-    "id"                        "id"                                            \
-    "rlsname"                   "rlsname"                                       \
-    "group"                     "group"                                         \
+    "releaseName"                   "releaseName"                                       \
+    `groupName`                     `groupName`                                         \
     "section"                   "section"                                       \
     "datetime"                  "datetime"                                      \
     "lastupdated"               "lastupdated"                                   \
@@ -53,9 +52,8 @@ namespace eval ::bonaPRE {
 
   # Configuration des champs pour les releases nuke
   array set nuke_   [list                                                       \
-    "id"                        "id"                                            \
-    "rlsname"                   "rlsname"                                       \
-    "group"                     "group"                                         \
+    "releaseName"                   "releaseName"                                       \
+    `groupName`                     `groupName`                                         \
     "datetime"                  "datetime"                                      \
     "nuke"                      "nuke"                                          \
     "raison"                    "raison"                                        \
@@ -64,7 +62,6 @@ namespace eval ::bonaPRE {
 
   # Configuration des champs pour les suppressions
   array set del_    [list                                                       \
-    "id"                        "id"                                            \
     "releaseName"               "releaseName"                                   \
     "groupName"                 "groupName"                                     \
     "datetime"                  "datetime"                                      \
@@ -75,14 +72,26 @@ namespace eval ::bonaPRE {
 
   # Configuration des champs pour les URL de la base de données
   array set dburl_  [list                                                       \
-    "id"                        "id"                                            \
-    "rlsname"                   "rlsname"                                       \
-    "group"                     "group"                                         \
+    "releaseName"                   "releaseName"                                       \
+    `groupName`                     `groupName`                                         \
     "lastupdated"               "lastupdated"                                   \
     "addurl"                    "addurl"                                        \
     "imdb"                      "imdb"                                          \
     "tvmaze"                    "tvmaze"                                        \
   ]
+-- ----------------------------
+-- Table structure for XTRA_URL
+-- ----------------------------
+DROP TABLE IF EXISTS `XTRA_URL`;
+CREATE TABLE `XTRA_URL`  (
+  `releaseName` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Nom de la release complete',
+  `groupName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Le group qui a sortis la release',
+  `lastupdated` datetime(0) NOT NULL DEFAULT current_timestamp() COMMENT 'L heure et date de la derniere modifications',
+  `urltype` enum('URL','TVMAZE','IMDB') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Type de lien',
+  `valeur` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'Numéro iMDB pour la release',
+  UNIQUE INDEX `releaseName_uniq`(`releaseName`, `urltype`) USING BTREE
+);
+
 
   # Définition des flags
   ################################################################################

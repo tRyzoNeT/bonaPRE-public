@@ -21,14 +21,14 @@ proc ::bonaPRE::MySQL::handleError {mysqlError} {
 proc ::bonaPRE::MySQL::connect {} {
   if { [catch {
     # Établit la connexion à la base de données MySQL
-    set handle [::mysql::connect \
-      -multistatement 1 \
-      -ssl "${::bonaPRE::mysql_(mode_ssl)}" \
-      -host "${::bonaPRE::mysql_(host)}" \
-      -user "${::bonaPRE::mysql_(user)}" \
-      -password "${::bonaPRE::mysql_(password)}" \
-      -db "${::bonaPRE::mysql_(db)}"
-    ]
+    set handle                  [::mysql::connect                               \
+                                  -multistatement 1                             \
+                                  -ssl "${::bonaPRE::mysql_(mode_ssl)}"         \
+                                  -host "${::bonaPRE::mysql_(host)}"            \
+                                  -user "${::bonaPRE::mysql_(user)}"            \
+                                  -password "${::bonaPRE::mysql_(password)}"    \
+                                  -db       "${::bonaPRE::mysql_(db)}"
+    ];
   } MYSQL_ERR] } {
     # En cas d'erreur de connexion, gère l'erreur et retourne le message approprié.
     set messageError [::bonaPRE::MySQL::handleError $MYSQL_ERR]
@@ -76,7 +76,44 @@ proc ::bonaPRE::MySQL::getHandle {} {
 }
 
 # Démarre le mécanisme de KeepAlive pour maintenir la connexion MySQL active.
-::bonaPRE::MySQL::KeepAlive 
+::bonaPRE::MySQL::KeepAlive
+
+# Les fonctions core
+proc ::bonaPRE::MySQL::sel { handle query {args {}} } {
+  if { [catch { set result [::mysql::sel [::bonaPRE::MySQL::getHandle] $query $args] } mysqlError] } {
+    set messageError [::bonaPRE::MySQL::handleError $mysqlError]
+    putlog $messageError
+    return -error $messageError
+  }
+  return -ok $result
+}
+
+proc ::bonaPRE::MySQL::exec { handle query {args {}} } {
+  if { [catch { set result [::mysql::exec [::bonaPRE::MySQL::getHandle] $query $args] } mysqlError] } {
+    set messageError [::bonaPRE::MySQL::handleError $mysqlError]
+    putlog $messageError
+    return -error $messageError
+  }
+  return -ok $result
+}
+
+proc ::bonaPRE::MySQL::insertid { handle } {
+  if { [catch { set result [::mysql::insertid [::bonaPRE::MySQL::getHandle]] } mysqlError] } {
+    set messageError [::bonaPRE::MySQL::handleError $mysqlError]
+    putlog $messageError
+    return -error $messageError
+  }
+  return -ok $result
+}
+# Les fonctions dédiées à la gestion des requêtes MySQL
+proc ::bonaPRE::MySQL::addrelease { query } {
+  if { [catch { set result [::mysql::exec [::bonaPRE::MySQL::getHandle] $query] } mysqlError] } {
+    set messageError [::bonaPRE::MySQL::handleError $mysqlError]
+    putlog $messageError
+    return -error $messageError
+  }
+  return -ok $result
+}
 
 # Indique la version du package fournie.
 package provide bonaPRE-SQL 1
