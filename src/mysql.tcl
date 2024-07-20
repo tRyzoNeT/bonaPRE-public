@@ -21,21 +21,14 @@ proc ::bonaPRE::MySQL::handleError {mysqlError} {
 proc ::bonaPRE::MySQL::connect {} {
   if { [catch {
     # Établit la connexion à la base de données MySQL
-    set handle                  [::mysql::connect                               \
-                                  -multistatement 1                             \
-                                  -ssl "${::bonaPRE::mysql_(mode_ssl)}"         \
-                                  -host "${::bonaPRE::mysql_(host)}"            \
-                                  -user "${::bonaPRE::mysql_(user)}"            \
-                                  -password "${::bonaPRE::mysql_(password)}"    \
-                                  -db       "${::bonaPRE::mysql_(db)}"
-    ];
+    set handle                  [::mysql::connect -multistatement 1 -ssl "${::bonaPRE::mysql_(mode_ssl)}" -host "${::bonaPRE::mysql_(host)}"  -user "${::bonaPRE::mysql_(user)}" -password "${::bonaPRE::mysql_(password)}"  -db       "${::bonaPRE::mysql_(db)}"];
   } MYSQL_ERR] } {
     # En cas d'erreur de connexion, gère l'erreur et retourne le message approprié.
     set messageError [::bonaPRE::MySQL::handleError $MYSQL_ERR]
     putlog $messageError
     return -error $messageError
   }
-  return -ok $handle
+  return $handle
 }
 
 # Assure que la connexion à MySQL reste active en utilisant un utimer pour le refresh.
@@ -49,7 +42,7 @@ proc ::bonaPRE::MySQL::KeepAlive {} {
     putlog "Tcl exec \[::${::bonaPRE::VAR(release)}::MySQL\] : Connexion inactive. 'KeepAlive' \[${::bonaPRE::mysql_(handle)}\], reconnexion.."
   }
   utimer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL::KeepAlive] 1 SQLKeepAlive
-  return -ok $::bonaPRE::mysql_(handle)
+  return $::bonaPRE::mysql_(handle)
 }
 
 # Vérifie si la connexion à MySQL est active.
@@ -83,7 +76,7 @@ proc ::bonaPRE::MySQL::sel { handle query {args {}} } {
     putlog $messageError
     return -error $messageError
   }
-  return -ok $result
+  return $result
 }
 
 proc ::bonaPRE::MySQL::exec { handle query {args {}} } {
@@ -92,7 +85,7 @@ proc ::bonaPRE::MySQL::exec { handle query {args {}} } {
     putlog $messageError
     return -error $messageError
   }
-  return -ok $result
+  return $result
 }
 
 proc ::bonaPRE::MySQL::insertid { handle } {
@@ -101,7 +94,7 @@ proc ::bonaPRE::MySQL::insertid { handle } {
     putlog $messageError
     return -error $messageError
   }
-  return -ok $result
+  return $result
 }
 # Les fonctions dédiées à la gestion des requêtes MySQL
 proc ::bonaPRE::MySQL::addrelease { query } {
@@ -110,7 +103,7 @@ proc ::bonaPRE::MySQL::addrelease { query } {
     putlog $messageError
     return -error $messageError
   }
-  return -ok $result
+  return $result
 }
 
 # Indique la version du package fournie.
