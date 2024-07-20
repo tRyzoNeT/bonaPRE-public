@@ -41,7 +41,7 @@ proc ::bonaPRE::MySQL::KeepAlive {} {
     # Si la connexion est inactive, affiche un message d'erreur.
     putlog "Tcl exec \[::${::bonaPRE::VAR(release)}::MySQL\] : Connexion inactive. 'KeepAlive' \[${::bonaPRE::mysql_(handle)}\], reconnexion.."
   }
-  utimer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL::KeepAlive] 1 SQLKeepAlive
+  timer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL::KeepAlive] 1 SQLKeepAlive
   return $::bonaPRE::mysql_(handle)
 }
 

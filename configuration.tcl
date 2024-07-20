@@ -19,7 +19,7 @@ namespace eval ::bonaPRE {
     "dbmain"                    "MAIN"                                          \
     "dburl"                     "XTRA_URL"                                      \
     "dbnuke"                    "NUKE"                                          \
-    "conrefresh"                "2000"                                          \
+    "conrefresh"                "1"                                             \
   ]
 
   # URL pour les recherches de séries et films
