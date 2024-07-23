@@ -41,7 +41,7 @@ proc ::bonaPRE::MySQL::KeepAlive {} {
     # Si la connexion est inactive, affiche un message d'erreur.
     putlog "Tcl exec \[::${::bonaPRE::VAR(release)}::MySQL\] : Connexion inactive. 'KeepAlive' \[${::bonaPRE::mysql_(handle)}\], reconnexion.."
   }
-  timer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL::KeepAlive] 1 SQLKeepAlive
+  utimer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL::KeepAlive] 1 SQLKeepAlive
   return $::bonaPRE::mysql_(handle)
 }
 
@@ -67,7 +67,7 @@ proc ::bonaPRE::MySQL::getHandle {} {
 }
 
 # Démarre le mécanisme de KeepAlive pour maintenir la connexion MySQL active.
-::bonaPRE::MySQL::KeepAlive
+catch { timer ${::bonaPRE::mysql_(conrefresh)} [list ::bonaPRE::MySQL::KeepAlive] 1 SQLKeepAlive }
 
 # Les fonctions core
 proc ::bonaPRE::MySQL::sel { handle query {args {}} } {
@@ -107,4 +107,4 @@ proc ::bonaPRE::MySQL::addrelease { query } {
 }
 
 # Indique la version du package fournie.
-package provide bonaPRE-SQL 1
+package provide bonaPRE-SQL 1.1
